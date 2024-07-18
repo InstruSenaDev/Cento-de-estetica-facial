@@ -23,6 +23,7 @@ import { Recuperar3 } from "./pages/Recuperar3"
 import { Recuperar4 } from "./pages/Recuperar4"
 import { Agendar } from "./pages/Agendar"
 import { LoadingProvider, useLoading } from './componentes/Animación/Loadingcontext';
+import { Sidebar } from "./componentes/Sidebar/sidebar";
 
 function Main() {
     const { setLoading } = useLoading();
@@ -56,6 +57,7 @@ function Main() {
                 <Route path='/Recover3' element={<Recuperar3 />} />
                 <Route path='/Recover4' element={<Recuperar4 />} />
                 <Route path='/Agendarcita' element={<Agendar />} />
+                <Route path='/MenuAdmin' element={<Sidebar />} />
             </Routes>
         </>
     );
