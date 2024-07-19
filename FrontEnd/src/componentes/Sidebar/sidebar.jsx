@@ -1,265 +1,310 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './barside.css';
-import Chart from 'chart.js';
+import  "./side";
 
 const Sidebar = () => {
-  useEffect(() => {
-    const $ = (selector) => document.querySelector(selector);
-    const find = (el, selector) => el.querySelector(selector);
-    const siblings = (el) => [...el.parentNode.children].filter((sibling) => sibling !== el);
-
-    const showAsideBtn = $('.show-side-btn');
-    const sidebar = $('.sidebar');
-    const wrapper = $('#wrapper');
-
-    if (showAsideBtn) {
-      showAsideBtn.addEventListener('click', function () {
-        $(`#${this.dataset.show}`).classList.toggle('show-sidebar');
-        wrapper.classList.toggle('fullwidth');
-      });
-    }
-
-    if (window.innerWidth < 767) {
-      sidebar.classList.add('show-sidebar');
-    }
-
-    window.addEventListener('resize', function () {
-      if (window.innerWidth > 767) {
-        sidebar.classList.remove('show-sidebar');
-      }
-    });
-
-    const slideNavDropdown = $('.sidebar-dropdown');
-
-    if (slideNavDropdown) {
-      $('.sidebar .categories').addEventListener('click', function (event) {
-        event.preventDefault();
-        const item = event.target.closest('.has-dropdown');
-        if (!item) return;
-
-        item.classList.toggle('opened');
-        siblings(item).forEach((sibling) => sibling.classList.remove('opened'));
-
-        if (item.classList.contains('opened')) {
-          const toOpen = find(item, '.sidebar-dropdown');
-          if (toOpen) toOpen.classList.add('active');
-          siblings(item).forEach((sibling) => {
-            const toClose = find(sibling, '.sidebar-dropdown');
-            if (toClose) toClose.classList.remove('active');
+ 
+    useEffect(() => {
+      const btnCollapse = document.getElementById('btn-collapse');
+      btnCollapse.addEventListener('click', () => {
+        SIDEBAR_EL.classList.toggle('collapsed');
+        PoppersInstance.closePoppers();
+        if (SIDEBAR_EL.classList.contains('collapsed'))
+          FIRST_SUB_MENUS_BTN.forEach((element) => {
+            element.parentElement.classList.remove('open');
           });
-        } else {
-          find(item, '.sidebar-dropdown').classList.toggle('active');
-        }
+        updatePoppersTimeout();
       });
-
-      $('.sidebar .close-aside').addEventListener('click', function () {
-        $(`#${this.dataset.close}`).classList.add('show-sidebar');
-        wrapper.classList.remove('margin');
+  
+      const btnToggle = document.getElementById('btn-toggle');
+      btnToggle.addEventListener('click', () => {
+        SIDEBAR_EL.classList.toggle('toggled');
+        updatePoppersTimeout();
       });
-    }
-
-    // Chart.js global settings
-    Chart.defaults.global.animation.duration = 2000;
-    Chart.defaults.global.title.display = false;
-    Chart.defaults.global.defaultFontColor = '#71748c';
-    Chart.defaults.global.defaultFontSize = 13;
-    Chart.defaults.global.tooltips.backgroundColor = '#111827';
-    Chart.defaults.global.tooltips.borderColor = 'blue';
-    Chart.defaults.scale.gridLines.zeroLineColor = '#3b3d56';
-    Chart.defaults.scale.gridLines.color = '#3b3d56';
-    Chart.defaults.scale.gridLines.drawBorder = false;
-    Chart.defaults.global.legend.labels.padding = 0;
-    Chart.defaults.global.legend.display = false;
-    Chart.defaults.scale.ticks.fontSize = 12;
-    Chart.defaults.scale.ticks.fontColor = '#71748c';
-    Chart.defaults.scale.ticks.beginAtZero = false;
-    Chart.defaults.scale.ticks.padding = 10;
-    Chart.defaults.global.elements.point.radius = 0;
-    Chart.defaults.global.responsive = true;
-    Chart.defaults.global.maintainAspectRatio = false;
-
-    // Initialize charts
-    new Chart(document.getElementById('myChart'), {
-      type: 'bar',
-      data: {
-        labels: ["January", "February", "March", "April", 'May', 'June', 'August', 'September'],
-        datasets: [{
-          label: "Lost",
-          data: [45, 25, 40, 20, 60, 20, 35, 25],
-          backgroundColor: "#0d6efd",
-          borderColor: 'transparent',
-          borderWidth: 2.5,
-          barPercentage: 0.4,
-        }, {
-          label: "Success",
-          startAngle: 2,
-          data: [20, 40, 20, 50, 25, 40, 25, 10],
-          backgroundColor: "#dc3545",
-          borderColor: 'transparent',
-          borderWidth: 2.5,
-          barPercentage: 0.4,
-        }]
-      },
-      options: {
-        scales: {
-          yAxes: [{
-            gridLines: {},
-            ticks: { stepSize: 15 },
-          }],
-          xAxes: [{ gridLines: { display: false } }]
-        }
-      }
-    });
-
-    new Chart(document.getElementById('myChart2'), {
-      type: 'line',
-      data: {
-        labels: ["January", "February", "March", "April", 'May', 'June', 'August', 'September'],
-        datasets: [{
-          label: "My First dataset",
-          data: [4, 20, 5, 20, 5, 25, 9, 18],
-          backgroundColor: 'transparent',
-          borderColor: '#0d6efd',
-          lineTension: .4,
-          borderWidth: 1.5,
-        }, {
-          label: "Month",
-          data: [11, 25, 10, 25, 10, 30, 14, 23],
-          backgroundColor: 'transparent',
-          borderColor: '#dc3545',
-          lineTension: .4,
-          borderWidth: 1.5,
-        }, {
-          label: "Month",
-          data: [16, 30, 16, 30, 16, 36, 21, 35],
-          backgroundColor: 'transparent',
-          borderColor: '#f0ad4e',
-          lineTension: .4,
-          borderWidth: 1.5,
-        }]
-      },
-      options: {
-        scales: {
-          yAxes: [{
-            gridLines: { drawBorder: false },
-            ticks: { stepSize: 12 },
-          }],
-          xAxes: [{ gridLines: { display: false } }]
-        }
-      }
-    });
-
-    new Chart(document.getElementById('chart3'), {
-      type: 'line',
-      data: {
-        labels: ["One", "Two", "Three", "Four", "Five", 'Six', "Seven", "Eight"],
-        datasets: [{
-          label: "Lost",
-          lineTension: 0.2,
-          borderColor: '#d9534f',
-          borderWidth: 1.5,
-          showLine: true,
-          data: [3, 30, 16, 30, 16, 36, 21, 40, 20, 30],
-          backgroundColor: 'transparent'
-        }, {
-          label: "Lost",
-          lineTension: 0.2,
-          borderColor: '#5cb85c',
-          borderWidth: 1.5,
-          data: [6, 20, 5, 20, 5, 25, 9, 18, 20, 15],
-          backgroundColor: 'transparent'
-        }, {
-          label: "Lost",
-          lineTension: 0.2,
-          borderColor: '#f0ad4e',
-          borderWidth: 1.5,
-          data: [12, 20, 15, 20, 5, 35, 10, 15, 35, 25],
-          backgroundColor: 'transparent'
-        }, {
-          label: "Lost",
-          lineTension: 0.2,
-          borderColor: '#337ab7',
-          borderWidth: 1.5,
-          data: [16, 25, 10, 25, 10, 30, 14, 23, 14, 29],
-          backgroundColor: 'transparent'
-        }]
-      },
-      options: {
-        scales: {
-          yAxes: [{
-            gridLines: { drawBorder: false },
-            ticks: { stepSize: 12 }
-          }],
-          xAxes: [{ gridLines: { display: false } }]
-        }
-      }
-    });
-  }, []);
+  
+      // Add event listeners for top-level submenu clicks
+      FIRST_SUB_MENUS_BTN.forEach((element) => {
+        element.addEventListener('click', () => {
+          if (SIDEBAR_EL.classList.contains('collapsed'))
+            PoppersInstance.togglePopper(element.nextElementSibling);
+          else {
+            const parentMenu = element.closest('.menu.open-current-submenu');
+            if (parentMenu)
+              parentMenu
+                .querySelectorAll(':scope > ul > .menu-item.sub-menu > a')
+                .forEach(
+                  (el) =>
+                    window.getComputedStyle(el.nextElementSibling).display !==
+                      'none' && slideUp(el.nextElementSibling)
+                );
+            slideToggle(element.nextElementSibling);
+          }
+        });
+      });
+  
+      // Add event listeners for inner submenu clicks
+      INNER_SUB_MENUS_BTN.forEach((element) => {
+        element.addEventListener('click', () => {
+          slideToggle(element.nextElementSibling);
+        });
+      });
+    }, []);
 
   return (
-    <div className="layout has-sidebar fixed-sidebar fixed-header">
-      <aside id="sidebar" className="sidebar break-point-sm has-bg-image">
-        <a id="btn-collapse" className="sidebar-collapser"><i className="ri-arrow-left-s-line"></i></a>
-        <div className="image-wrapper">
-          <img src="assets/images/sidebar-bg.jpg" alt="sidebar background" />
-        </div>
-        <div className="sidebar-layout">
-          <div className="sidebar-header">
-            <div className="pro-sidebar-logo">
-              <div>P</div>
-              <h5>Pro Sidebar</h5>
-            </div>
+    
+
+      <div className="layout has-sidebar fixed-sidebar fixed-header">
+        <aside id="sidebar" className="sidebar break-point-sm has-bg-image">
+          <a id="btn-collapse" className="sidebar-collapser">
+            <i className="ri-arrow-left-s-line"></i>
+          </a>
+          <div className="image-wrapper">
+            <img src="assets/images/sidebar-bg.jpg" alt="sidebar background" />
           </div>
-          <div className="sidebar-content">
-            <nav className="menu open-current-submenu">
-              <ul>
-                <li className="menu-header"><span> GENERAL </span></li>
-                <li className="menu-item sub-menu">
-                  <a href="#">
-                    <span className="menu-icon">
-                      <i className="ri-vip-diamond-fill"></i>
-                    </span>
-                    <span className="menu-title">Components</span>
-                    <span className="menu-suffix"><span className="badge primary">New</span></span>
-                  </a>
-                  <div className="sub-menu-list">
-                    <ul>
-                      <li className="sub-menu-item"><a href="#">General</a></li>
-                      <li className="sub-menu-item"><a href="#">Dashboards</a></li>
-                      <li className="sub-menu-item"><a href="#">Calendar</a></li>
-                    </ul>
-                  </div>
-                </li>
-                <li className="menu-item">
-                  <a href="#">
-                    <span className="menu-icon">
-                      <i className="ri-pie-chart-box-fill"></i>
-                    </span>
-                    <span className="menu-title">Charts</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-          <div className="sidebar-footer">
-            <div className="footer-box">
-              <div className="image">
-                <img src="assets/images/logo.png" className="img-fluid" alt="logo" />
-              </div>
-              <div className="content">
-                <h6>Your App</h6>
-                <p>Simple & Beautiful admin template</p>
+          <div className="sidebar-layout">
+            <div className="sidebar-header">
+              <div className="pro-sidebar-logo">
+                <div>P</div>
+                <h5>Pro Sidebar</h5>
               </div>
             </div>
-            <a href="https://github.com/azouaoui-med/pro-sidebar-template" target="_blank" className="sidebar-footer-link">
-              <i className="ri-github-fill"></i>
-            </a>
+            <div className="sidebar-content">
+              <nav className="menu open-current-submenu">
+                <ul>
+                  <li className="menu-header"><span> GENERAL </span></li>
+                  <li className="menu-item sub-menu">
+                    <a href="#">
+                      <span className="menu-icon">
+                        <i className="ri-vip-diamond-fill"></i>
+                      </span>
+                      <span className="menu-title">Components</span>
+                      <span className="menu-suffix">
+                        <span className="badge primary">Hot</span>
+                      </span>
+                    </a>
+                    <div className="sub-menu-list">
+                      <ul>
+                        <li className="menu-item">
+                          <a href="#">
+                            <span className="menu-title">Grid</span>
+                          </a>
+                        </li>
+                        <li className="menu-item">
+                          <a href="#">
+                            <span className="menu-title">Layout</span>
+                          </a>
+                        </li>
+                        <li className="menu-item sub-menu">
+                          <a href="#">
+                            <span className="menu-title">Forms</span>
+                          </a>
+                          <div className="sub-menu-list">
+                            <ul>
+                              <li className="menu-item">
+                                <a href="#">
+                                  <span className="menu-title">Input</span>
+                                </a>
+                              </li>
+                              <li className="menu-item">
+                                <a href="#">
+                                  <span className="menu-title">Select</span>
+                                </a>
+                              </li>
+                              <li className="menu-item sub-menu">
+                                <a href="#">
+                                  <span className="menu-title">More</span>
+                                </a>
+                                <div className="sub-menu-list">
+                                  <ul>
+                                    <li className="menu-item">
+                                      <a href="#">
+                                        <span className="menu-title">CheckBox</span>
+                                      </a>
+                                    </li>
+                                    <li className="menu-item">
+                                      <a href="#">
+                                        <span className="menu-title">Radio</span>
+                                      </a>
+                                    </li>
+                                    <li className="menu-item sub-menu">
+                                      <a href="#">
+                                        <span className="menu-title">Want more ?</span>
+                                        <span className="menu-suffix">&#x1F914;</span>
+                                      </a>
+                                      <div className="sub-menu-list">
+                                        <ul>
+                                          <li className="menu-item">
+                                            <a href="#">
+                                              <span className="menu-prefix">&#127881;</span>
+                                              <span className="menu-title">You made it </span>
+                                            </a>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+
+                  <li className="menu-item sub-menu">
+                    <a href="#">
+                      <span className="menu-icon">
+                        <i className="ri-bar-chart-2-fill"></i>
+                      </span>
+                      <span className="menu-title">Charts</span>
+                    </a>
+                    <div className="sub-menu-list">
+                      <ul>
+                        <li className="menu-item">
+                          <a href="#">
+                            <span className="menu-title">Pie chart</span>
+                          </a>
+                        </li>
+                        <li className="menu-item">
+                          <a href="#">
+                            <span className="menu-title">Line chart</span>
+                          </a>
+                        </li>
+                        <li className="menu-item">
+                          <a href="#">
+                            <span className="menu-title">Bar chart</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+
+                  <li className="menu-item sub-menu">
+                    <a href="#">
+                      <span className="menu-icon">
+                        <i className="ri-shopping-cart-fill"></i>
+                      </span>
+                      <span className="menu-title">E-commerce</span>
+                    </a>
+                    <div className="sub-menu-list">
+                      <ul>
+                        <li className="menu-item">
+                          <a href="#">
+                            <span className="menu-title">Products</span>
+                          </a>
+                        </li>
+                        <li className="menu-item">
+                          <a href="#">
+                            <span className="menu-title">Orders</span>
+                          </a>
+                        </li>
+                        <li className="menu-item">
+                          <a href="#">
+                            <span className="menu-title">credit card</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+
+                  <li className="menu-item sub-menu">
+                    <a href="#">
+                      <span className="menu-icon">
+                       <i className="ri-global-fill"></i>
+                      </span>
+                      <span className="menu-title">Maps</span>
+                    </a>
+                    <div className="sub-menu-list">
+                      <ul>
+                        <li className="menu-item">
+                          <a href="#">
+                            <span className="menu-title">Google maps</span>
+                          </a>
+                        </li>
+                        <li className="menu-item">
+                          <a href="#">
+                            <span className="menu-title">Open street map</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+
+                  <li className="menu-item sub-menu">
+                    <a href="#">
+                      <span className="menu-icon">
+                       <i className="ri-paint-brush-fill"></i>
+                      </span>
+                      <span className="menu-title">Theme</span>
+                    </a>
+                    <div className="sub-menu-list">
+                      <ul>
+                        <li className="menu-item">
+                          <a href="#">
+                            <span className="menu-title">Dark</span>
+                          </a>
+                        </li>
+                        <li className="menu-item">
+                          <a href="#">
+                            <span className="menu-title">Light</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+
+                  <li className="menu-header" style={{ paddingTop: '20px' }}> <span> EXTRA </span></li>
+                  <li className="menu-item">
+                    <a href="#">
+                      <span className="menu-icon">
+                        <i className="ri-book-2-fill"></i>
+                      </span>
+                      <span className="menu-title">Documentation</span>
+                      <span className="menu-suffix">
+                        <span className="badge secondary">Beta</span>
+                      </span>
+                    </a>
+                  </li>
+
+                  <li className="menu-item">
+                    <a href="#">
+                      <span className="menu-icon">
+                        <i className="ri-calendar-fill"></i>
+                      </span>
+                      <span className="menu-title">Calendar</span>
+                    </a>
+                  </li>
+
+                  <li className="menu-item">
+                    <a href="#">
+                      <span className="menu-icon">
+                        <i className="ri-service-fill"></i>
+                      </span>
+                      <span className="menu-title">Examples</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
           </div>
+        </aside>
+
+        <div id="overlay" className="overlay"></div>
+        <div className="layout">
+          <main className="content">
+            <div>
+              <a id="btn-toggle" href="#" className="sidebar-toggler break-point-sm">
+                <i className="ri-menu-line ri-xl"></i>
+              </a>
+            </div>
+          </main>
+          <div className="overlay"></div>
         </div>
-      </aside>
-      <div className="sidebar-overlay"></div>
-    </div>
-  );
-};
+      </div>
+
+    );
+  };
+
 
 export default Sidebar;

@@ -10,7 +10,7 @@ export const Pageloader = () => {
         if (loading) {
             timer = setTimeout(() => {
                 setLoading(false);
-            }, 500); // Tiempo de carga simulado en segundos
+            }, 680); // Tiempo de carga simulado en segundos
         }
 
         return () => clearTimeout(timer);

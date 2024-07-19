@@ -1,265 +1,253 @@
+const ANIMATION_DURATION = 300;
 
-import './Sidebar.css';
-import Chart from 'chart.js';
+const SIDEBAR_EL = document.getElementById("sidebar");
 
-// Other important pens.
-// Map: https://codepen.io/themustafaomar/pen/ZEGJeZq
-// Navbar: https://codepen.io/themustafaomar/pen/VKbQyZ
+const SUB_MENU_ELS = document.querySelectorAll(
+  ".menu > ul > .menu-item.sub-menu"
+);
 
-'use strict'
+const FIRST_SUB_MENUS_BTN = document.querySelectorAll(
+  ".menu > ul > .menu-item.sub-menu > a"
+);
 
-function $(selector) {
-  return document.querySelector(selector)
-}
+const INNER_SUB_MENUS_BTN = document.querySelectorAll(
+  ".menu > ul > .menu-item.sub-menu .menu-item.sub-menu > a"
+);
 
-function find(el, selector) {
-  let finded
-  return (finded = el.querySelector(selector)) ? finded : null
-}
+class PopperObject {
+  instance = null;
+  reference = null;
+  popperTarget = null;
 
-function siblings(el) {
-  const siblings = []
-  for (let sibling of el.parentNode.children) {
-    if (sibling !== el) {
-      siblings.push(sibling)
-    }
-  }
-  return siblings
-}
-
-const showAsideBtn = $('.show-side-btn')
-const sidebar = $('.sidebar')
-const wrapper = $('#wrapper')
-
-showAsideBtn.addEventListener('click', function () {
-  $(`#${this.dataset.show}`).classList.toggle('show-sidebar')
-  wrapper.classList.toggle('fullwidth')
-})
-
-if (window.innerWidth < 767) {
-  sidebar.classList.add('show-sidebar');
-}
-
-window.addEventListener('resize', function () {
-  if (window.innerWidth > 767) {
-    sidebar.classList.remove('show-sidebar')
-  }
-})
-
-// dropdown menu in the side nav
-var slideNavDropdown = $('.sidebar-dropdown');
-
-$('.sidebar .categories').addEventListener('click', function (event) {
-  event.preventDefault()
-
-  const item = event.target.closest('.has-dropdown')
-
-  if (! item) {
-    return
+  constructor(reference, popperTarget) {
+    this.init(reference, popperTarget);
   }
 
-  item.classList.toggle('opened')
-
-  siblings(item).forEach(sibling => {
-    sibling.classList.remove('opened')
-  })
-
-  if (item.classList.contains('opened')) {
-    const toOpen = find(item, '.sidebar-dropdown')
-
-    if (toOpen) {
-      toOpen.classList.add('active')
-    }
-
-    siblings(item).forEach(sibling => {
-      const toClose = find(sibling, '.sidebar-dropdown')
-
-      if (toClose) {
-        toClose.classList.remove('active')
-      }
-    })
-  } else {
-    find(item, '.sidebar-dropdown').classList.toggle('active')
-  }
-})
-
-$('.sidebar .close-aside').addEventListener('click', function () {
-  $(`#${this.dataset.close}`).classList.add('show-sidebar')
-  wrapper.classList.remove('margin')
-})
-
-
-// Global defaults
-Chart.defaults.global.animation.duration = 2000; // Animation duration
-Chart.defaults.global.title.display = false; // Remove title
-Chart.defaults.global.defaultFontColor = '#71748c'; // Font color
-Chart.defaults.global.defaultFontSize = 13; // Font size for every label
-
-// Tooltip global resets
-Chart.defaults.global.tooltips.backgroundColor = '#111827'
-Chart.defaults.global.tooltips.borderColor = 'blue'
-
-// Gridlines global resets
-Chart.defaults.scale.gridLines.zeroLineColor = '#3b3d56'
-Chart.defaults.scale.gridLines.color = '#3b3d56'
-Chart.defaults.scale.gridLines.drawBorder = false
-
-// Legend global resets
-Chart.defaults.global.legend.labels.padding = 0;
-Chart.defaults.global.legend.display = false;
-
-// Ticks global resets
-Chart.defaults.scale.ticks.fontSize = 12
-Chart.defaults.scale.ticks.fontColor = '#71748c'
-Chart.defaults.scale.ticks.beginAtZero = false
-Chart.defaults.scale.ticks.padding = 10
-
-// Elements globals
-Chart.defaults.global.elements.point.radius = 0
-
-// Responsivess
-Chart.defaults.global.responsive = true
-Chart.defaults.global.maintainAspectRatio = false
-
-// The bar chart
-var myChart = new Chart(document.getElementById('myChart'), {
-  type: 'bar',
-  data: {
-    labels: ["January", "February", "March", "April", 'May', 'June', 'August', 'September'],
-    datasets: [{
-      label: "Lost",
-      data: [45, 25, 40, 20, 60, 20, 35, 25],
-      backgroundColor: "#0d6efd",
-      borderColor: 'transparent',
-      borderWidth: 2.5,
-      barPercentage: 0.4,
-    }, {
-      label: "Succes",
-      startAngle: 2,
-      data: [20, 40, 20, 50, 25, 40, 25, 10],
-      backgroundColor: "#dc3545",
-      borderColor: 'transparent',
-      borderWidth: 2.5,
-      barPercentage: 0.4,
-    }]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        gridLines: {},
-        ticks: {
-          stepSize: 15,
+  init(reference, popperTarget) {
+    this.reference = reference;
+    this.popperTarget = popperTarget;
+    this.instance = Popper.createPopper(this.reference, this.popperTarget, {
+      placement: "right",
+      strategy: "fixed",
+      resize: true,
+      modifiers: [
+        {
+          name: "computeStyles",
+          options: {
+            adaptive: false
+          }
         },
-      }],
-      xAxes: [{
-        gridLines: {
-          display: false,
+        {
+          name: "flip",
+          options: {
+            fallbackPlacements: ["left", "right"]
+          }
         }
-      }]
-    }
-  }
-})
+      ]
+    });
 
-// The line chart
-var chart = new Chart(document.getElementById('myChart2'), {
-  type: 'line',
-  data: {
-    labels: ["January", "February", "March", "April", 'May', 'June', 'August', 'September'],
-    datasets: [{
-      label: "My First dataset",
-      data: [4, 20, 5, 20, 5, 25, 9, 18],
-      backgroundColor: 'transparent',
-      borderColor: '#0d6efd',
-      lineTension: .4,
-      borderWidth: 1.5,
-    }, {
-      label: "Month",
-      data: [11, 25, 10, 25, 10, 30, 14, 23],
-      backgroundColor: 'transparent',
-      borderColor: '#dc3545',
-      lineTension: .4,
-      borderWidth: 1.5,
-    }, {
-      label: "Month",
-      data: [16, 30, 16, 30, 16, 36, 21, 35],
-      backgroundColor: 'transparent',
-      borderColor: '#f0ad4e',
-      lineTension: .4,
-      borderWidth: 1.5,
-    }]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        gridLines: {
-          drawBorder: false
-        },
-        ticks: {
-          stepSize: 12,
-        }
-      }],
-      xAxes: [{
-        gridLines: {
-          display: false,
-        },
-      }]
-    }
-  }
-})
+    document.addEventListener(
+      "click",
+      (e) => this.clicker(e, this.popperTarget, this.reference),
+      false
+    );
 
-var chart = document.getElementById('chart3');
-var myChart = new Chart(chart, {
-  type: 'line',
-  data: {
-    labels: ["One", "Two", "Three", "Four", "Five", 'Six', "Seven", "Eight"],
-    datasets: [{
-      label: "Lost",
-      lineTension: 0.2,
-      borderColor: '#d9534f',
-      borderWidth: 1.5,
-      showLine: true,
-      data: [3, 30, 16, 30, 16, 36, 21, 40, 20, 30],
-      backgroundColor: 'transparent'
-    }, {
-      label: "Lost",
-      lineTension: 0.2,
-      borderColor: '#5cb85c',
-      borderWidth: 1.5,
-      data: [6, 20, 5, 20, 5, 25, 9, 18, 20, 15],
-      backgroundColor: 'transparent'
-    },
-               {
-                 label: "Lost",
-                 lineTension: 0.2,
-                 borderColor: '#f0ad4e',
-                 borderWidth: 1.5,
-                 data: [12, 20, 15, 20, 5, 35, 10, 15, 35, 25],
-                 backgroundColor: 'transparent'
-               },
-               {
-                 label: "Lost",
-                 lineTension: 0.2,
-                 borderColor: '#337ab7',
-                 borderWidth: 1.5,
-                 data: [16, 25, 10, 25, 10, 30, 14, 23, 14, 29],
-                 backgroundColor: 'transparent'
-               }]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        gridLines: {
-          drawBorder: false
-        },
-        ticks: {
-          stepSize: 12
-        }
-      }],
-      xAxes: [{
-        gridLines: {
-          display: false,
-        },
-      }],
+    const ro = new ResizeObserver(() => {
+      this.instance.update();
+    });
+
+    ro.observe(this.popperTarget);
+    ro.observe(this.reference);
+  }
+
+  clicker(event, popperTarget, reference) {
+    if (
+      SIDEBAR_EL.classList.contains("collapsed") &&
+      !popperTarget.contains(event.target) &&
+      !reference.contains(event.target)
+    ) {
+      this.hide();
     }
   }
-})
+
+  hide() {
+    this.instance.state.elements.popper.style.visibility = "hidden";
+  }
+}
+
+class Poppers {
+  subMenuPoppers = [];
+
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    SUB_MENU_ELS.forEach((element) => {
+      this.subMenuPoppers.push(
+        new PopperObject(element, element.lastElementChild)
+      );
+      this.closePoppers();
+    });
+  }
+
+  togglePopper(target) {
+    if (window.getComputedStyle(target).visibility === "hidden")
+      target.style.visibility = "visible";
+    else target.style.visibility = "hidden";
+  }
+
+  updatePoppers() {
+    this.subMenuPoppers.forEach((element) => {
+      element.instance.state.elements.popper.style.display = "none";
+      element.instance.update();
+    });
+  }
+
+  closePoppers() {
+    this.subMenuPoppers.forEach((element) => {
+      element.hide();
+    });
+  }
+}
+
+const slideUp = (target, duration = ANIMATION_DURATION) => {
+  const { parentElement } = target;
+  parentElement.classList.remove("open");
+  target.style.transitionProperty = "height, margin, padding";
+  target.style.transitionDuration = `${duration}ms`;
+  target.style.boxSizing = "border-box";
+  target.style.height = `${target.offsetHeight}px`;
+  target.offsetHeight;
+  target.style.overflow = "hidden";
+  target.style.height = 0;
+  target.style.paddingTop = 0;
+  target.style.paddingBottom = 0;
+  target.style.marginTop = 0;
+  target.style.marginBottom = 0;
+  window.setTimeout(() => {
+    target.style.display = "none";
+    target.style.removeProperty("height");
+    target.style.removeProperty("padding-top");
+    target.style.removeProperty("padding-bottom");
+    target.style.removeProperty("margin-top");
+    target.style.removeProperty("margin-bottom");
+    target.style.removeProperty("overflow");
+    target.style.removeProperty("transition-duration");
+    target.style.removeProperty("transition-property");
+  }, duration);
+};
+const slideDown = (target, duration = ANIMATION_DURATION) => {
+  const { parentElement } = target;
+  parentElement.classList.add("open");
+  target.style.removeProperty("display");
+  let { display } = window.getComputedStyle(target);
+  if (display === "none") display = "block";
+  target.style.display = display;
+  const height = target.offsetHeight;
+  target.style.overflow = "hidden";
+  target.style.height = 0;
+  target.style.paddingTop = 0;
+  target.style.paddingBottom = 0;
+  target.style.marginTop = 0;
+  target.style.marginBottom = 0;
+  target.offsetHeight;
+  target.style.boxSizing = "border-box";
+  target.style.transitionProperty = "height, margin, padding";
+  target.style.transitionDuration = `${duration}ms`;
+  target.style.height = `${height}px`;
+  target.style.removeProperty("padding-top");
+  target.style.removeProperty("padding-bottom");
+  target.style.removeProperty("margin-top");
+  target.style.removeProperty("margin-bottom");
+  window.setTimeout(() => {
+    target.style.removeProperty("height");
+    target.style.removeProperty("overflow");
+    target.style.removeProperty("transition-duration");
+    target.style.removeProperty("transition-property");
+  }, duration);
+};
+
+const slideToggle = (target, duration = ANIMATION_DURATION) => {
+  if (window.getComputedStyle(target).display === "none")
+    return slideDown(target, duration);
+  return slideUp(target, duration);
+};
+
+const PoppersInstance = new Poppers();
+
+/**
+ * wait for the current animation to finish and update poppers position
+ */
+const updatePoppersTimeout = () => {
+  setTimeout(() => {
+    PoppersInstance.updatePoppers();
+  }, ANIMATION_DURATION);
+};
+
+/**
+ * sidebar collapse handler
+ */
+document.getElementById("btn-collapse").addEventListener("click", () => {
+  SIDEBAR_EL.classList.toggle("collapsed");
+  PoppersInstance.closePoppers();
+  if (SIDEBAR_EL.classList.contains("collapsed"))
+    FIRST_SUB_MENUS_BTN.forEach((element) => {
+      element.parentElement.classList.remove("open");
+    });
+
+  updatePoppersTimeout();
+});
+
+/**
+ * sidebar toggle handler (on break point )
+ */
+document.getElementById("btn-toggle").addEventListener("click", () => {
+  SIDEBAR_EL.classList.toggle("toggled");
+
+  updatePoppersTimeout();
+});
+
+/**
+ * toggle sidebar on overlay click
+ */
+document.getElementById("overlay").addEventListener("click", () => {
+  SIDEBAR_EL.classList.toggle("toggled");
+});
+
+const defaultOpenMenus = document.querySelectorAll(".menu-item.sub-menu.open");
+
+defaultOpenMenus.forEach((element) => {
+  element.lastElementChild.style.display = "block";
+});
+
+/**
+ * handle top level submenu click
+ */
+FIRST_SUB_MENUS_BTN.forEach((element) => {
+  element.addEventListener("click", () => {
+    if (SIDEBAR_EL.classList.contains("collapsed"))
+      PoppersInstance.togglePopper(element.nextElementSibling);
+    else {
+      const parentMenu = element.closest(".menu.open-current-submenu");
+      if (parentMenu)
+        parentMenu
+          .querySelectorAll(":scope > ul > .menu-item.sub-menu > a")
+          .forEach(
+            (el) =>
+              window.getComputedStyle(el.nextElementSibling).display !==
+                "none" && slideUp(el.nextElementSibling)
+          );
+      slideToggle(element.nextElementSibling);
+    }
+  });
+});
+
+/**
+ * handle inner submenu click
+ */
+INNER_SUB_MENUS_BTN.forEach((element) => {
+  element.addEventListener("click", () => {
+    slideToggle(element.nextElementSibling);
+  });
+});
