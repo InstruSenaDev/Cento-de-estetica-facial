@@ -1,58 +1,87 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './barside.css';
-import  "./side";
+import './side';
+
+const ANIMATION_DURATION = 300;
 
 const Sidebar = () => {
- 
-    useEffect(() => {
-      const btnCollapse = document.getElementById('btn-collapse');
-      btnCollapse.addEventListener('click', () => {
-        SIDEBAR_EL.classList.toggle('collapsed');
-        PoppersInstance.closePoppers();
-        if (SIDEBAR_EL.classList.contains('collapsed'))
-          FIRST_SUB_MENUS_BTN.forEach((element) => {
-            element.parentElement.classList.remove('open');
-          });
-        updatePoppersTimeout();
-      });
-  
-      const btnToggle = document.getElementById('btn-toggle');
-      btnToggle.addEventListener('click', () => {
-        SIDEBAR_EL.classList.toggle('toggled');
-        updatePoppersTimeout();
-      });
-  
-      // Add event listeners for top-level submenu clicks
-      FIRST_SUB_MENUS_BTN.forEach((element) => {
-        element.addEventListener('click', () => {
-          if (SIDEBAR_EL.classList.contains('collapsed'))
-            PoppersInstance.togglePopper(element.nextElementSibling);
-          else {
-            const parentMenu = element.closest('.menu.open-current-submenu');
-            if (parentMenu)
-              parentMenu
-                .querySelectorAll(':scope > ul > .menu-item.sub-menu > a')
-                .forEach(
-                  (el) =>
-                    window.getComputedStyle(el.nextElementSibling).display !==
-                      'none' && slideUp(el.nextElementSibling)
-                );
-            slideToggle(element.nextElementSibling);
+  const sidebarRef = useRef(null);
+  const btnCollapseRef = useRef(null);
+  const btnToggleRef = useRef(null);
+  const overlayRef = useRef(null);
+
+  useEffect(() => {
+    const sidebarEl = sidebarRef.current;
+    const btnCollapse = btnCollapseRef.current;
+    const btnToggle = btnToggleRef.current;
+    const overlay = overlayRef.current;
+
+    const updatePoppersTimeout = () => {
+      setTimeout(() => {
+        PoppersInstance.updatePoppers();
+      }, ANIMATION_DURATION);
+    };
+
+    btnCollapse.addEventListener('click', () => {
+      sidebarEl.classList.toggle('collapsed');
+      PoppersInstance.closePoppers();
+      if (sidebarEl.classList.contains('collapsed')) {
+        FIRST_SUB_MENUS_BTN.forEach((element) => {
+          element.parentElement.classList.remove('open');
+        });
+      }
+      updatePoppersTimeout();
+    });
+
+    btnToggle.addEventListener('click', () => {
+      sidebarEl.classList.toggle('toggled');
+      updatePoppersTimeout();
+    });
+
+    overlay.addEventListener('click', () => {
+      sidebarEl.classList.toggle('toggled');
+    });
+
+    FIRST_SUB_MENUS_BTN.forEach((element) => {
+      element.addEventListener('click', () => {
+        if (sidebarEl.classList.contains('collapsed')) {
+          PoppersInstance.togglePopper(element.nextElementSibling);
+        } else {
+          const parentMenu = element.closest('.menu.open-current-submenu');
+          if (parentMenu) {
+            parentMenu
+              .querySelectorAll(':scope > ul > .menu-item.sub-menu > a')
+              .forEach(
+                (el) =>
+                  window.getComputedStyle(el.nextElementSibling).display !==
+                    'none' && slideUp(el.nextElementSibling)
+              );
           }
-        });
-      });
-  
-      // Add event listeners for inner submenu clicks
-      INNER_SUB_MENUS_BTN.forEach((element) => {
-        element.addEventListener('click', () => {
           slideToggle(element.nextElementSibling);
-        });
+        }
       });
-    }, []);
+    });
+
+    INNER_SUB_MENUS_BTN.forEach((element) => {
+      element.addEventListener('click', () => {
+        slideToggle(element.nextElementSibling);
+      });
+    });
+
+    return () => {
+      btnCollapse.removeEventListener('click', () => {});
+      btnToggle.removeEventListener('click', () => {});
+      overlay.removeEventListener('click', () => {});
+      FIRST_SUB_MENUS_BTN.forEach((element) => {
+        element.removeEventListener('click', () => {});
+      });
+      INNER_SUB_MENUS_BTN.forEach((element) => {
+        element.removeEventListener('click', () => {});
+      });
+    };
+  }, []);
 
   return (
-    
-
       <div className="layout has-sidebar fixed-sidebar fixed-header">
         <aside id="sidebar" className="sidebar break-point-sm has-bg-image">
           <a id="btn-collapse" className="sidebar-collapser">
