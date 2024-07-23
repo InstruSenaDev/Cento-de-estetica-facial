@@ -16,14 +16,15 @@ import { Combolaminylif } from "./pages/ComboP-Lamc+Lifting";
 import { Pageloader } from './componentes/Animación/Carga';
 import {Acceder} from './pages/Acceder';
 import { Registro } from "./pages/Registro";
-import { RegistroCheck } from "./pages/RegistroCheck"
-import { Recuperar } from "./pages/Recuperar"
-import { Recuperar2 } from "./pages/Recuperar2"
-import { Recuperar3 } from "./pages/Recuperar3"
-import { Recuperar4 } from "./pages/Recuperar4"
-import { Agendar } from "./pages/Agendar"
+import { RegistroCheck } from "./pages/RegistroCheck";
+import { Recuperar } from "./pages/Recuperar";
+import { Recuperar2 } from "./pages/Recuperar2";
+import { Recuperar3 } from "./pages/Recuperar3";
+import { Recuperar4 } from "./pages/Recuperar4";
+import { Agendar } from "./pages/Agendar";
+// import { SidebarLayout } from "./pages/Sidebarpage";
 import { LoadingProvider, useLoading } from './componentes/Animación/Loadingcontext';
-import { Sidebar } from "./componentes/Sidebar/sidebar";
+
 
 function Main() {
     const { setLoading } = useLoading();
@@ -57,7 +58,8 @@ function Main() {
                 <Route path='/Recover3' element={<Recuperar3 />} />
                 <Route path='/Recover4' element={<Recuperar4 />} />
                 <Route path='/Agendarcita' element={<Agendar />} />
-                <Route path='/MenuAdmin' element={<Sidebar />} />
+
+            
             </Routes>
         </>
     );

@@ -1,0 +1,15 @@
+.layout {
+    display: flex;
+  }
+  
+.sidebar {
+    /* Add your sidebar styles here */
+    background-color: aliceblue;
+  }
+  
+  .sidebar.collapsed .menu > ul > .menu-item.sub-menu > .sub-menu-list {
+    visibility: visible !important;
+    position: static !important;
+    transform: translate(0, 0) !important;
+  }
+  
