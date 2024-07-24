@@ -24,7 +24,12 @@ import { Recuperar4 } from "./pages/Recuperar4";
 import { Agendar } from "./pages/Agendar";
 // import { SidebarLayout } from "./pages/Sidebarpage";
 import { LoadingProvider, useLoading } from './componentes/Animación/Loadingcontext';
-
+import {AuthProvider} from './context/AuthProvider';
+import {Dashboard} from './componentes/Dash_board/Dashboard';
+import {Login} from './pages/Login';
+import {Register} from './pages/Register';
+import {Appointments} from './pages/AppointmentForm';
+import {Services} from './pages/Services';
 
 function Main() {
     const { setLoading } = useLoading();
@@ -58,6 +63,12 @@ function Main() {
                 <Route path='/Recover3' element={<Recuperar3 />} />
                 <Route path='/Recover4' element={<Recuperar4 />} />
                 <Route path='/Agendarcita' element={<Agendar />} />
+
+                <Route path="/" exact component={Dashboard} />
+                    <Route path="/login" component={Login} />
+                    <Route path="/register" component={Register} />
+                    <Route path="/appointments" component={Appointments} />
+                    <Route path="/services" component={Services} />
 
             
             </Routes>

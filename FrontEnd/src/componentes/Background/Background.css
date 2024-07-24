@@ -288,6 +288,12 @@ border-width: thin;
 font-size: 20px;
 font-family: 'Urbanist';
 }
+.Button_conoce{
+  border: none;
+  border-radius: 10px;
+  font-family: "Playfair Display", serif;
+
+}
 
 .redirigirserv {
   padding: 20px;

@@ -109,10 +109,11 @@ export const Background = () => {
                         loading="lazy"
                         referrerPolicy="no-referrer-when-downgrade"
                     ></iframe>
+                    <div className='Button_conoce'>
                       <NavLink to="/politicas">
                     <button type="button">CONOCE MAS</button>
                 </NavLink>
-                </div>
+                </div></div>
 
 
 

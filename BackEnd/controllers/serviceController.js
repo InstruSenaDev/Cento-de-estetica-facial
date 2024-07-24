@@ -19,6 +19,7 @@ exports.createService = async (req, res) => {
     }
 };
 
+
 exports.updateService = async (req, res) => {
     try {
         const service = await Service.findByIdAndUpdate(req.params.id, req.body, { new: true });

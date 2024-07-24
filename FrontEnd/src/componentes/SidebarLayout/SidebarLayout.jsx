@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './style.css';
+import '<div className="" />
+<bar></bar>.css';
 import SidebarMenu from './SidebarMenu';
 
 const Sidebar = () => {
