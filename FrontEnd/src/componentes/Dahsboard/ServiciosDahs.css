@@ -1,5 +1,72 @@
-body{
-    margin: 0;
-    padding: 0;
-    background-color: #951515;
-}
+.servicios-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .form input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .form button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .servicios-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .servicio-item {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .servicio-item h3 {
+    margin-top: 0;
+  }
+  
+  .servicio-item button {
+    padding: 5px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .servicio-item button:hover {
+    opacity: 0.8;
+  }
+  
+  .deshabilitado {
+    opacity: 0.5;
+    text-decoration: line-through;
+  }
+  
