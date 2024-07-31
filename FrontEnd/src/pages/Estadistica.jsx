@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 export function Estadisticas() {
   return (
     <Container>

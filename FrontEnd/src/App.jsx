@@ -85,6 +85,7 @@ function App() {
                     <Route path='/Recover3' element={<Recuperar3 />} />
                     <Route path='/Recover4' element={<Recuperar4 />} />
                     <Route path='/Agendarcita' element={<Agendar />} />
+                    <Route path='/Dahsboard'element={<Sidebar/>} />
                 </Routes>
             </Router>
         </LoadingProvider>

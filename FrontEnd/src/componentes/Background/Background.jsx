@@ -45,59 +45,49 @@ export const Background = () => {
 
 
                     <div className='foto'>
-                        <img  src={imagenfondo} />
+                        <img src={imagenfondo} />
                     </div>
-
-
                 </div>
-
-
-
-
-
-
-
+                
                 <div className='acercade'>
                     En <b>Natalia Salazar</b>, creemos que realzar tu mirada y tu sonrisa es el secreto para sentirte más bella y segura de ti misma.
                     Nuestros tratamientos destán diseñados para resaltar tu mirada, definir tus rasgos y dejar que tu sonrisa resplandezca.
                     Déjate consentir en nuestro oasis de belleza y encuentra tu resplandor interior.
                 </div>
+
                 <div className='fraseservicios'>
-                    <strong>Renueva tu bienestar, descubre tu belleza</strong></div>
+                    <strong>Renueva tu bienestar, descubre tu belleza</strong>
+                    </div>
+                
                 <div className='imgservices'>
                     <img className="img-completa" src={imagencejashenna} />
                     <div className='todoimg'>
+                       
                         <div className='oa'>
                             <img className="img-cejas" src={imagencejas} />
                             <img className="img-maquillaje" src={imagenmaquillaje} />
                         </div>
+
                         <div className='oaa'>
                             <img className="img-lifting" src={imagenlifting} />
                             <img className="img-lifcejas" src={imagenlifcejas} />
                         </div>
-
-
-                    </div>
-                </div>
+                        </div>
+                        </div>
+                
                 <div className='bottoncentrado'>
                     <button type="button" class="buttonservi">SERVICIOS</button></div>
-
-            </div>
+                    </div>
 
 
 
 
 
             <div className="backgroundtercero">
-
-
-
                 <div className="enunciados">
-
                     <h2>¿Te gustaría separar una cita? <br></br>Te invito a conocer nuestros términos y condiciones de servicio para el año 2024.</h2>
-
-                    <h3>Si prefiere reservar su cita en persona, no dude en pasar por nuestra ubicación: Calle 33b #7-53 .</h3>
                 </div>
+                
                 <div className="mapa">
                     <iframe
                         title="mapa-google"
@@ -107,20 +97,14 @@ export const Background = () => {
                         style={{ border: 0 }}
                         allowFullScreen=""
                         loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                    ></iframe>
+                        referrerPolicy="no-referrer-when-downgrade"></iframe>
+
                     <div className='Button_conoce'>
-                      <NavLink to="/politicas">
-                    <button type="button">CONOCE MAS</button>
-                </NavLink>
-                </div></div>
-
-
-
-            </div>
-           
-
-        </div>
+                        <NavLink to="/politicas"><button type="button">CONOCE MAS</button></NavLink>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
 
     )
 
