@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Aplicacion from './Aplicacion';
+import App from './Aplicacion';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Aplicacion />
+    <App />
   </React.StrictMode>,
   document.getElementById('raiz')
 );

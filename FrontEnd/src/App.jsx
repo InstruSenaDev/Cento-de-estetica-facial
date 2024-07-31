@@ -25,8 +25,8 @@ import { Agendar } from "./pages/Agendar";
 import { LoadingProvider, useLoading } from './componentes/Animación/Loadingcontext';
 import styled, { ThemeProvider } from "styled-components";
 import { Sidebar } from "./componentes/SidebarLayout/Sidebar";
-// import { Myroutes } from "./routers/routes";
-// import { Light, Dark } from "./styles/Themes";
+import { MyRoutes } from "./routers/routes";
+import { Light, Dark } from "./Styles/Themes";
 
 export const ThemeContext = React.createContext(null);
 
@@ -52,7 +52,7 @@ function Main() {
                             sidebarOpen={sidebarOpen}
                             setSidebarOpen={setSidebarOpen}
                         />
-                        <Myroutes />
+                        <MyRoutes />
                     </Container>
                 </ThemeProvider>
             </ThemeContext.Provider>
@@ -91,15 +91,13 @@ function App() {
     );
 }
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: 90px auto;
-  background: ${({ theme }) => theme.bgtotal};
-  transition: all 0.3s;
-  &.active {
-    grid-template-columns: 300px auto;
-  }
-  color: ${({ theme }) => theme.text};
-`;
-
-export default App;
+        const Container = styled.div`
+        display: grid;
+        grid-template-columns: 90px auto;
+        background: ${({ theme }) => theme.bgtotal};
+        transition: all 0.3s;
+        &.active {grid-template-columns: 300px auto;}
+        color: ${({ theme }) => theme.text};
+        `;
+        
+        export default App;

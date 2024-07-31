@@ -1,7 +1,7 @@
 import styled from "styled-components";
-// import logo from "../assets/react.svg";
-// import { v } from "../styles/Variables";
-// import {  AiOutlineLeft, AiOutlineHome, AiOutlineApartment,AiOutlineSetting} from "react-icons/ai";
+import logo from "../../assets/images/com.png";
+import { v } from "../../Styles/Variables";
+import {  AiOutlineLeft, AiOutlineHome, AiOutlineApartment,AiOutlineSetting} from "react-icons/ai";
 import { MdOutlineAnalytics, MdLogout } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { useContext } from "react";
@@ -18,27 +18,29 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }) {
     };
 
     return (
-        <Container isOpen={sidebarOpen} themeUse={theme}>
-            <button className="Sidebarbutton" onClick={ModSidebaropen}>
-                <AiOutlineLeft />
-            </button>
+    <Container isOpen={sidebarOpen} themeUse={theme}>
+      <button className="Sidebarbutton" onClick={ModSidebaropen}>
+        <AiOutlineLeft />
+        </button>
+            
             <div className="Logocontent">
-                <div className="imgcontent">
-                    <img src={logo} />
+              <div className="imgcontent">
+                <img src={logo} />
                 </div>
-                <h2>codigo369</h2>
+                <h2>Natalia Salazar</h2>
             </div>
+
             {linksArray.map(({ icon, label, to }) => (
                 <div className="LinkContainer" key={label}>
                     <NavLink
                         to={to}
-                        className={({ isActive }) => `Links${isActive ? ` active` : ``}`}
-                    >
+                        className={({ isActive }) => `Links${isActive ? ` active` : ``}`}>
                         <div className="Linkicon">{icon}</div>
                         {sidebarOpen && <span>{label}</span>}
                     </NavLink>
                 </div>
             ))}
+
             <Divider />
             {secondarylinksArray.map(({ icon, label, to }) => (
                 <div className="LinkContainer" key={label}>
@@ -51,6 +53,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     </NavLink>
                 </div>
             ))}
+
             <Divider />
             <div className="Themecontent">
                 {sidebarOpen && <span className="titletheme">Dark mode</span>}
@@ -75,6 +78,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }) {
         </Container>
     );
 }
+
 //#region Data links
 const linksArray = [
     {
@@ -123,6 +127,7 @@ const Container = styled.div`
   background: ${(props) => props.theme.bg};
   position: sticky;
   padding-top: 20px;
+
   .Sidebarbutton {
     position: absolute;
     top: ${v.xxlSpacing};
@@ -132,7 +137,7 @@ const Container = styled.div`
     border-radius: 50%;
     background: ${(props) => props.theme.bgtgderecha};
     box-shadow: 0 0 4px ${(props) => props.theme.bg3},
-      0 0 7px ${(props) => props.theme.bg};
+    0 0 7px ${(props) => props.theme.bg};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -148,6 +153,7 @@ const Container = styled.div`
     font-family: inherit;
     outline: none;
   }
+
   .Logocontent {
     display: flex;
     justify-content: center;
@@ -160,14 +166,17 @@ const Container = styled.div`
         max-width: 100%;
         height: auto;
       }
+
       cursor: pointer;
       transition: all 0.3s;
       transform: ${({ isOpen }) => (isOpen ? `scale(0.7)` : `scale(1.5)`)};
     }
+
     h2 {
       display: ${({ isOpen }) => (isOpen ? `block` : `none`)};
     }
   }
+
   .LinkContainer {
     margin: 8px 0;
    
@@ -182,6 +191,7 @@ const Container = styled.div`
       padding: calc(${v.smSpacing}-2px) 0;
       color: ${(props) => props.theme.text};
       height:50px;
+      
       .Linkicon {
         padding: ${v.smSpacing} ${v.mdSpacing};
         display: flex;
@@ -190,6 +200,7 @@ const Container = styled.div`
           font-size: 25px;
         }
       }
+
       &.active {
         .Linkicon {
           svg {
@@ -199,6 +210,7 @@ const Container = styled.div`
       }
     }
   }
+
   .Themecontent {
     display: flex;
     align-items: center;
@@ -212,6 +224,7 @@ const Container = styled.div`
       white-space: nowrap;
       overflow: hidden;
     }
+
     .Togglecontent {
       margin: ${({ isOpen }) => (isOpen ? `auto 40px` : `auto 15px`)};
       width: 36px;
@@ -230,6 +243,7 @@ const Container = styled.div`
           width: 100vw;
           font-family: "Lato", sans-serif;
         }
+
         .demo {
           font-size: 32px;
           .switch {
@@ -247,6 +261,7 @@ const Container = styled.div`
                 transform: translateX(26px);
               }
             }
+
             .slider {
               position: absolute;
               cursor: pointer;
@@ -255,7 +270,7 @@ const Container = styled.div`
               right: 0;
               bottom: 0;
               background: ${({ themeUse }) =>
-        themeUse === "light" ? v.lightcheckbox : v.checkbox};
+                themeUse === "light" ? v.lightcheckbox : v.checkbox};
 
               transition: 0.4s;
               &::before {
@@ -268,6 +283,7 @@ const Container = styled.div`
                 line-height: 0px;
                 transition: 0.4s;
               }
+
               &.round {
                 border-radius: 34px;
 
