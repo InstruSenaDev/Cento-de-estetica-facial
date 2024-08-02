@@ -1,8 +1,7 @@
-body { background-color: rgb(255, 255, 255) }
-
-.escprof {
-    font-size: 30px;
+body {
+    background-color: rgb(255, 255, 255)
 }
+
 
 form {
     display: flex;
@@ -12,18 +11,24 @@ form {
 
 select {
     font-size: 20px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 option {
     font-size: 20px;
+    
 }
 
-table, th, td {
+table,
+th,
+td {
     border: 1px solid black;
     text-align: center;
     padding: 15px;
     font-size: 20px;
     word-wrap: break-word;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
 }
 
 .todoingreso {
@@ -42,14 +47,15 @@ table, th, td {
     display: flex;
     flex-direction: column;
 }
+
 .colorros {
     background-color: #FCEBF2;
 
 }
 
 select {
-    border-color:  #FCEBF2;
-
+    border-color: #FCEBF2;
+    font-size: 25px;
 }
 
 .helloxd {
@@ -63,4 +69,59 @@ button {
 .partright {
     display: flex;
 }
+
 /*sirve para que no se deborde el texto (word-wrap: break-word); */
+
+.react-calendar__tile {
+
+    color: #000000 !important;
+    /* Color de texto para todos los días */
+    border-radius: 0% !important;
+    /* Borde redondeado para los días */
+}
+
+.react-calendar__tile--disable {
+    background-color: rgb(255, 0, 0) !important;
+}
+
+.react-calendar__month-view__days {
+    padding: 10px;
+}
+
+.escogerhora {
+    transform: translateX(20px);
+}
+
+/* Estilo para el día seleccionado */
+.react-calendar__tile--active {
+    background: #ffdceb !important;
+    /* Color rosado para el fondo del día seleccionado */
+}
+
+/* Opcional: Estilo para el hover de las casillas */
+.react-calendar__tile:hover {
+    background: #FCEBF2 !important;
+    /* Color rosado claro para el hover */
+}
+
+.react-calendar__tile--now {
+    background-color: none !important;
+}
+
+/* Estilo para los días del mes actual */
+.react-calendar__tile {
+    color: rgb(0, 0, 0) !important;
+    /* Color del texto para los días del mes actual */
+}
+
+.eschor {
+ font-size: 30px;
+}
+.datosfecha {
+    font-size: 30px;
+
+}
+
+h3 {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

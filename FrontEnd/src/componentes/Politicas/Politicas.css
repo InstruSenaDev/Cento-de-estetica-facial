@@ -23,9 +23,9 @@ body{
 .titulo_conten h3{
     margin-left: 50px;
     margin-top: 10px;
+    height: 20px;
     font-size: 23px;
     font-weight: 700;
-    width: 50%;
     }
 
 .titulo h1{
@@ -58,8 +58,8 @@ li{
 }
 
 .contenido_info{
-    width: 70%;
-    padding: 3rem;
+    width: 60%;
+    margin: 5%;
     font-family: "Manrope", sans-serif;
     font-optical-sizing: auto;
     font-weight: weight;

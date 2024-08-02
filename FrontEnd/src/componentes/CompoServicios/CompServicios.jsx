@@ -5,7 +5,6 @@ import { NavLink } from 'react-router-dom';
 
 export const CompServicios = () => {
     return (
-
         <div className='componenteServs'>
             <div className='Bannerserviciosg'>
                 <div className='tituloserviciosg'>

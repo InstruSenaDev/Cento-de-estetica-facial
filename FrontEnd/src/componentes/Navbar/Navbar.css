@@ -1,12 +1,12 @@
 .navbar-centrado{
     display: flex;
     justify-content: center;
-}
+    
 
+}
 .Promociones{
-    color: hsl(305, 65%, 40%);
+    color: #a7249c;
 }
-
 
 .boton-reserva{
     color: black;
@@ -28,11 +28,32 @@
 }   
 
 .navbar{
-    background-color: #FCEBF2 !important;
+    background-color: #e9cbd5 !important;
+    
 }
-
-.navbar a {  
+.navbar a {
+    
     margin-right: 30px;
 }
 
 
+.password1 {
+    position: absolute;
+    right: 25px;
+    transform: translate(0, -50%);
+    bottom: 23%;
+}
+
+.password2 {
+    position: absolute;
+    right: 25px;
+    transform: translate(0, -50%);
+    bottom: 23%;
+}
+
+.password3 {
+    position: absolute;
+    right: 25px;
+    transform: translate(0, -50%);
+    bottom: 23%;
+}

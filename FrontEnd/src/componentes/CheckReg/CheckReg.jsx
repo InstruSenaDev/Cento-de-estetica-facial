@@ -15,7 +15,7 @@ return (
 
 
 <div className='mensajecheck'>
-    <div className='iconocheck'><i class='bx bx-badge-check'/></div>
+    <div className='iconocheck'><i className='bx bx-badge-check'/></div>
     <div className='datocheck'>Le hemos enviado un correo electrónico, haga click en el enlace incluido para verificar su dirección de correo electrónico.</div>
 </div>
 

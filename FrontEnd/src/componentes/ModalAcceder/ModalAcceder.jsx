@@ -28,7 +28,7 @@ return (
     <input type="text" name='email' placeholder = "Ingrese su nombre"/>
     <input type="text" name='correo' placeholder = "Ingrese su correo"/>
     <input type="text" name='telefono' placeholder = "Ingrese su teléfono"/>
-    <div className='botoningreso'><button type='submit'><b>Agendar</b></button></div>
+    <div className='botoningreso'><button type='submit'><b>Ingresar</b></button></div>
 </div>
 
 <div className='decoraciones'>

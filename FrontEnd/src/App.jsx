@@ -1,10 +1,13 @@
+
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './pages/Home';
 import { Servicios } from './pages/Servicios';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { InicioSesion } from './componentes/InicioSesion/InicioSesion';
-import { Piedepagina } from './componentes/Footer/footer';
+import { Acceder } from './pages/Acceder';
+import {Servicios} from './pages/Servicios';
 import { ServicioPestañas } from "./pages/ServicioP";
 import { ServicioCjas } from "./pages/ServicioC";
 import { ServicioMcion } from "./pages/ServicioM";
@@ -27,16 +30,34 @@ import styled, { ThemeProvider } from "styled-components";
 import { Sidebar } from "./componentes/SidebarLayout/Sidebar";
 import { MyRoutes } from "./routers/routes";
 import { Light, Dark } from "./Styles/Themes";
-
 export const ThemeContext = React.createContext(null);
+import SignUp from './pages/SignUp';
+import LoginUser from './pages/Login';
+import Facturaelectronica from './pages/FacturaElectronica'
 
-function Main() {
+function App() {
+  const [token, setToken] = useState(false)
+
+  if (token) {
+    sessionStorage.setItem('token', JSON.stringify(token))
+  }
+
+  useEffect(() => {
+    if (sessionStorage.getItem('token')) {
+      let data = JSON.parse(sessionStorage.getItem('token'))
+      setToken(data)
+    }
+
+  }, [])
+
+  function Main() {
     const { setLoading } = useLoading();
     const location = useLocation();
 
     useEffect(() => {
-        setLoading(true);
+      setLoading(true);
     }, [location, setLoading]);
+
 
     const [theme, setTheme] = useState("light");
     const themeStyle = theme === "light" ? Light : Dark;
@@ -66,7 +87,8 @@ function App() {
             <Router>
                 <Main />
                 <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={<Home token={token} />} />
+                    <Route path={'/loginsupa'} element={<LoginUser setToken={setToken} />} />
                     <Route path="/servicios" element={<Servicios />} />
                     <Route path="/inicio" element={<InicioSesion />} />
                     <Route path="/politicas" element={<Condiciones />} />
@@ -101,4 +123,14 @@ function App() {
         color: ${({ theme }) => theme.text};
         `;
         
-        export default App;
+    return (
+      <LoadingProvider>
+        <Router>
+          <Main />
+        </Router>
+      </LoadingProvider>
+    );
+}
+
+export default App;
+

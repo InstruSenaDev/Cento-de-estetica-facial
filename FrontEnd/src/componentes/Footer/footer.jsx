@@ -9,8 +9,8 @@ export const Piedepagina = () => {
         <div className='footer'>
             <div className='contenedorup'>
                 <div className='encabezadofooter'></div>
-                <h3> <i class='bx bxl-instagram iconos_grandes'></i>
-                    <i class='bx bxl-facebook-circle iconos_grandes'></i></h3>
+                <h3> <i className='bx bxl-instagram iconos_grandes'></i>
+                    <i className='bx bxl-facebook-circle iconos_grandes'></i></h3>
             </div>
 
             <div className='contenedorif'>

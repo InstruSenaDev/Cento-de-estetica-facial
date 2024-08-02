@@ -1,4 +1,4 @@
-document.addEventListener("keypress", () => {
+document.addEventListener("keyup", () => {
   const input1 = document.getElementById('Input1');
   const icon = document.querySelector('.bx');
 

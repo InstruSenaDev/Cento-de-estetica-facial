@@ -114,3 +114,16 @@ transform: translateX(-22px);
 .Input1{
     padding-right: 58%;
 }
+
+.password2 {
+    position: absolute;
+    right: 25px;
+    transform: translate(0, -495%);
+    bottom: 23%;}
+
+    .password3 {
+        position: absolute;
+        right: 25px;
+        transform: translate(0, -220%);
+        bottom: 23%;
+    }    

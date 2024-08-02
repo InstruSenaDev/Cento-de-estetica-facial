@@ -1,6 +1,6 @@
 import react from 'react';
-import sombreadoceja from "../../assets/images/sombreadoceja.png";
-import lidtingdepestañas from "../../assets/images/lidtingdepestañas.png";
+import diseñodepilacionysombreado from "../../assets/images/diseñodepilacionysombreado.png";
+import liftingdepestañas from "../../assets/images/liftingdepestañas.png";
 import "./combos.css"
 
 export const ComboSyLifting = () => {
@@ -9,7 +9,7 @@ export const ComboSyLifting = () => {
             <div className='encabezado'>
                 <h1>Diseño depilacion y sombreado + lifting de pestañas  </h1>
             </div>
-            <div className='subtituloCmbos'>
+            <div className='subtitulo'>
                 <h2>Nuestro Metodo:</h2>
             </div>
 
@@ -25,7 +25,7 @@ export const ComboSyLifting = () => {
                     </div>
 
                     <div className='picture'>
-                        <img className='picture1' src={sombreadoceja}/>
+                        <img className='picture1' src={diseñodepilacionysombreado}/>
                         </div>
                     </div>
 
@@ -39,7 +39,7 @@ export const ComboSyLifting = () => {
                         </ul></div>
 
                         <div className='picture'>
-                        <img className='picture2' src={lidtingdepestañas}/>
+                        <img className='picture2' src={liftingdepestañas}/>
                         </div>
                     </div>
                     </div> 

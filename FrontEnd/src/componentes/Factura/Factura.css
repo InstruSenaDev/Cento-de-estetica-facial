@@ -1,0 +1,11 @@
+table, th, td {
+    border: 1px solid black;
+    text-align: center;
+    padding: 15px;
+    font-size: 20px;
+    word-wrap: break-word;
+}
+
+.tabla_header_footer {
+        background-color: #ffdceb;
+    }
