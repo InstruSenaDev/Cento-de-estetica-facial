@@ -21,7 +21,7 @@ body {
 }
 
 .tituloserviciosg h1 {
-    font-size: 3rem; /* Tamaño ajustado para que sea responsivo */
+    font-size: 3rem; 
     color: #422A3C;
     font-weight: 700;
     margin: 0;
@@ -31,7 +31,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    padding: 0 10px; /* Espaciado horizontal para evitar que el contenido toque los bordes */
+    padding: 0 10px; 
 }
 
 .Titulo_Servicio_Cejas,
@@ -39,12 +39,13 @@ body {
 .Titulo_Servicio_Microp {
     padding: 2rem;
     text-align: center;
+    background-color: #FBFCF8;
 }
 
 .Titulo_Servicio_Cejas h3,
 .Titulo_Servicio_Pestañas h3,
 .Titulo_Servicio_Microp h3 {
-    font-size: 2.5rem; /* Tamaño de fuente consistente para los títulos */
+    font-size: 2.5rem; 
     color: #422A3C;
     margin: 0;
 }
@@ -132,7 +133,7 @@ body {
 /* Media Queries */
 @media (max-width: 1200px) {
     .tituloserviciosg h1 {
-        font-size: 2.5rem; /* Ajustado para pantallas más pequeñas */
+        font-size: 2.5rem; 
     }
 
     .secciones_servicios {
@@ -143,7 +144,7 @@ body {
 
 @media (max-width: 992px) {
     .tituloserviciosg h1 {
-        font-size: 2rem; /* Ajustado para pantallas más pequeñas */
+        font-size: 2rem; 
     }
 
     .secciones_servicios {
@@ -166,7 +167,7 @@ body {
 
 @media (max-width: 768px) {
     .tituloserviciosg h1 {
-        font-size: 1.8rem; /* Ajuste para pantallas más pequeñas */
+        font-size: 1.8rem; 
     }
 
     .serviciosdetc h5,
@@ -183,7 +184,7 @@ body {
 
 @media (max-width: 480px) {
     .tituloserviciosg h1 {
-        font-size: 1.5rem; /* Ajuste para pantallas más pequeñas */
+        font-size: 1.5rem; 
     }
 
     .secciones_servicios {

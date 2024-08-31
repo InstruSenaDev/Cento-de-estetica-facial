@@ -1,24 +1,23 @@
 body {
-    background-color: rgb(255, 255, 255)
+    background-color: rgb(255, 255, 255);
+    margin: 0;
+    font-family: Arial, sans-serif; /* Asegura que todos los elementos tengan una fuente base */
 }
-
 
 form {
     display: flex;
     flex-direction: column;
-
+    padding: 1rem;
 }
 
 select {
     font-size: 20px;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 option {
     font-size: 20px;
-    
 }
-
 
 table,
 th,
@@ -28,22 +27,20 @@ td {
     padding: 15px;
     font-size: 20px;
     word-wrap: break-word;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    /* Añadido para hacer la tabla más flexible */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .todoingreso {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
-}
-
-.escogerprof {
-    display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
+.escogerprof,
 .partetabla {
     display: flex;
     flex-direction: column;
@@ -51,12 +48,12 @@ td {
 
 .colorros {
     background-color: #FCEBF2;
-
 }
 
 select {
     border-color: #FCEBF2;
     font-size: 25px;
+    margin: 0.5rem 0;
 }
 
 .helloxd {
@@ -69,16 +66,14 @@ button {
 
 .partright {
     display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/*sirve para que no se deborde el texto (word-wrap: break-word); */
-
+/* Estilo para la parte de la calendar */
 .react-calendar__tile {
-
     color: #000000 !important;
-    /* Color de texto para todos los días */
     border-radius: 0% !important;
-    /* Borde redondeado para los días */
 }
 
 .react-calendar__tile--disable {
@@ -111,18 +106,14 @@ button {
     background-color: rgb(126, 121, 121);
 }
 
-
-
 /* Estilo para el día seleccionado */
 .react-calendar__tile--active {
     background: #ffdceb !important;
-    /* Color rosado para el fondo del día seleccionado */
 }
 
 /* Opcional: Estilo para el hover de las casillas */
 .react-calendar__tile:hover {
     background: #FCEBF2 !important;
-    /* Color rosado claro para el hover */
 }
 
 .react-calendar__tile--now {
@@ -132,17 +123,125 @@ button {
 /* Estilo para los días del mes actual */
 .react-calendar__tile {
     color: rgb(0, 0, 0) !important;
-    /* Color del texto para los días del mes actual */
 }
 
 .eschor {
- font-size: 30px;
+    font-size: 30px;
 }
+
 .datosfecha {
     font-size: 30px;
-
 }
 
 h3 {
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+/* Media Queries */
+@media (max-width: 1200px) {
+    table,
+    th,
+    td {
+        font-size: 18px;
+    }
+
+    .escogerhora {
+        transform: translateX(10px);
+    }
+
+    .escogerprof, 
+    .partetabla {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .todoingreso {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 992px) {
+    select {
+        font-size: 18px;
+    }
+
+    table,
+    th,
+    td {
+        font-size: 16px;
+    }
+
+    .escogerhora {
+        transform: translateX(5px);
+    }
+
+    .escogerprof, 
+    .partetabla {
+        flex-direction: column;
+    }
+
+    .todoingreso {
+        flex-direction: column;
+    }
+
+    .cuadros {
+        width: 100%;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    select {
+        font-size: 16px;
+    }
+
+    table,
+    th,
+    td {
+        font-size: 14px;
+    }
+
+    .escogerhora {
+        transform: translateX(0);
+    }
+
+    .escogerprof, 
+    .partetabla {
+        flex-direction: column;
+    }
+
+    .todoingreso {
+        flex-direction: column;
+    }
+
+    .cuadros {
+        width: 100%;
+        font-size: 14px;
+        padding: 8px;
+        margin: 4px;
+    }
+}
+
+@media (max-width: 576px) {
+    select {
+        font-size: 14px;
+    }
+
+    table,
+    th,
+    td {
+        font-size: 12px;
+    }
+
+    .cuadros {
+        font-size: 12px;
+        padding: 6px;
+        margin: 2px;
+    }
+
+    .eschor,
+    .datosfecha {
+        font-size: 24px;
+    }
 }

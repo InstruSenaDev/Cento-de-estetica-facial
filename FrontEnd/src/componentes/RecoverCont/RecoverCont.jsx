@@ -19,7 +19,7 @@ return (
               placeholder="Ingrese su correo"/>
               
               </div>
-              <button className="botoningresar" type='submit'> <Link to={"/Recover3"}>Continuar</Link></button>
+              <button className="botoningresar" type='submit'> <Link to={"/Recover2"}>Continuar</Link></button>
               <div className='forgotSign'> <Link to={'/loginsupa'}>Iniciar Sesión</Link></div>
               <div className='forgotRegister'> <Link to={'/Registrar'}>Crear una nueva cuenta</Link></div></div>
 
