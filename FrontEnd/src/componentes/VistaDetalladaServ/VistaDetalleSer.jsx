@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import '../Servicio_detalle/Serviciocejas';
+import "./VistaDetalleservi.css"
 
 export const VistaDetalle = () => {
   const location = useLocation();
@@ -13,7 +14,7 @@ export const VistaDetalle = () => {
 
 
   return (
-    <div className='contenedor_total'>
+    <div className='contenedor_total' style={{flex:1}}>
       <div className='banneer'>
         <h1 className='detallserv'>Detalle del Servicio</h1>
       </div>

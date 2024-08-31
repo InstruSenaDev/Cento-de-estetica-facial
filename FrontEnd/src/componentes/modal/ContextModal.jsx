@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
-import Modalinicio from './Modalinicio'; // Ajustar la ruta según corresponda
-import ModalRegistro from './ModalRegistro'; // Ajustar la ruta según corresponda
+import Modalinicio from './Modalinicio'; 
+import ModalRegistro from './ModalRegistro'; 
 
 const ModalContext = createContext();
 
@@ -13,7 +13,7 @@ export const ModalProvider = ({ children }) => {
         setTimeout(() => {
             setModalType(type);
             setShowModal(true);
-        }, 200); // Espera breve para asegurar que el modal previo se cierre
+        }, 200); 
     };
 
     const closeModal = () => {

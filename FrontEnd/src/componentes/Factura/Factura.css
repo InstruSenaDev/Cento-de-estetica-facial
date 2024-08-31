@@ -1,11 +1,120 @@
-table, th, td {
-    border: 1px solid black;
-    text-align: center;
-    padding: 15px;
-    font-size: 20px;
-    word-wrap: break-word;
+.contenedor_facturacion{
+    background-color: #ffffff;
+    background-image: url("https://www.transparenttextures.com/patterns/flowers.png");
+
+}
+.facturacion-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.tabla_header_footer {
-        background-color: #ffdceb;
+.invoice-header {
+    background-color: #555;
+    border: 2px solid #555;
+    border-radius: 10px;
+    text-align: center;
+    border-bottom: 2px ;
+    padding-bottom: 15px;
+}
+
+.invoice-header h1 {
+    margin: 0;
+    color: #333;
+    font-size: 2em;
+}
+
+
+.invoice-body {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.invoice-section {
+    margin-bottom: 20px;
+}
+
+.invoice-section h2 {
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+}
+
+.invoice-section p {
+    font-size: 20px;
+    margin: 5px 0;
+    color: #555;
+}
+
+.invoice-section p strong {
+    color: #333;
+}
+
+.invoice-footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.explicacion_factura{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.explicacion_factura h2{
+   font-size: 20px;
+} 
+
+.titulo_invoice-section p{
+    font-size: 30px;
+    color: black;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .facturacion-container {
+        padding: 15px;
     }
+
+    .invoice-header h1 {
+        font-size: 1.5em;
+    }
+
+    .invoice-header p {
+        font-size: 1em;
+    }
+
+    .invoice-section h2 {
+        font-size: 1.2em;
+    }
+
+    .invoice-section p {
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 480px) {
+    .facturacion-container {
+        padding: 10px;
+    }
+
+    .invoice-header h1 {
+        font-size: 1.2em;
+    }
+
+    .invoice-header p {
+        font-size: 0.9em;
+    }
+
+    .invoice-section h2 {
+        font-size: 1em;
+    }
+
+    .invoice-section p {
+        font-size: 0.8em;
+    }
+}

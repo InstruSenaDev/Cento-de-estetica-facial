@@ -50,44 +50,6 @@ td {
     background-color: #FCEBF2;
 }
 
-select {
-    border-color: #FCEBF2;
-    font-size: 25px;
-    margin: 0.5rem 0;
-}
-
-.helloxd {
-    height: 100vh;
-}
-
-button {
-    color: black;
-}
-
-.partright {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Estilo para la parte de la calendar */
-.react-calendar__tile {
-    color: #000000 !important;
-    border-radius: 0% !important;
-}
-
-.react-calendar__tile--disable {
-    background-color: rgb(255, 0, 0) !important;
-}
-
-.react-calendar__month-view__days {
-    padding: 10px;
-}
-
-.escogerhora {
-    transform: translateX(20px);
-}
-
 .cuadros {
     display: inline-block;
     padding: 10px;
@@ -106,142 +68,199 @@ button {
     background-color: rgb(126, 121, 121);
 }
 
-/* Estilo para el día seleccionado */
+.react-calendar__tile {
+    color: #000000 !important;
+}
+
 .react-calendar__tile--active {
     background: #ffdceb !important;
 }
 
-/* Opcional: Estilo para el hover de las casillas */
 .react-calendar__tile:hover {
     background: #FCEBF2 !important;
 }
 
-.react-calendar__tile--now {
-    background-color: none !important;
+.header_agendamiento {
+    background-color: #FCEBF2;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilo para los días del mes actual */
-.react-calendar__tile {
-    color: rgb(0, 0, 0) !important;
+.header_agendamiento h3 {
+    font-size: 40px;
+    text-align: center;
+    color: #422A3C;
 }
 
-.eschor {
+.seleccion-container {
+    background-color: #422A3C;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #ffffff;
+    padding: 1rem;
+    border: #422A3C;
+    border-radius: 10px;
+    margin: 20px;
+    width: 98%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.seleccion-container h3 {
+    text-align: center;
+    font-weight: 100;
     font-size: 30px;
 }
 
-.datosfecha {
+.select_profesional {
+    background-color: #422A3C;
+    color: #ddd;
+    display: flex;
+}
+
+.select_contenedor_profesionales {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.hr {
+    width: 98%;
+    margin: 20px;
+}
+
+.titulo_calendario_escoger_fecha {
+    background-color: #422A3C;
+    color: #ffffff;
+    border: 2px solid #422A3C;
+    border-radius: 10px;
+    width: 98%;
+    margin: 20px;
+}
+
+.titulo_calendario_escoger_fecha h3 {
+    text-align: center;
     font-size: 30px;
 }
 
-h3 {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+.titulo_calendario_escoger_fecha p {
+    font-size: 18px;
+    text-align: center;
+    color: #ffffff;
 }
 
-/* Media Queries */
-@media (max-width: 1200px) {
-    table,
-    th,
-    td {
-        font-size: 18px;
-    }
-
-    .escogerhora {
-        transform: translateX(10px);
-    }
-
-    .escogerprof, 
-    .partetabla {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .todoingreso {
-        flex-direction: column;
-    }
+.calendario-container {
+    display: flex;
+    flex-direction: row;
+    background-color: #dddddd59;
+    border: 2px solid #422a3c36;
+    border-radius: 10px;
+    padding: 1rem;
+    width: 98%;
+    height: 10%;
+    justify-content: space-around;
+    align-items: baseline;
+    margin: 20px;
 }
 
-@media (max-width: 992px) {
-    select {
-        font-size: 18px;
-    }
-
-    table,
-    th,
-    td {
-        font-size: 16px;
-    }
-
-    .escogerhora {
-        transform: translateX(5px);
-    }
-
-    .escogerprof, 
-    .partetabla {
-        flex-direction: column;
-    }
-
-    .todoingreso {
-        flex-direction: column;
-    }
-
-    .cuadros {
-        width: 100%;
-        font-size: 16px;
-    }
+.react_calendar_fecha {
+    width: 100%;
+    max-width: 100%;
+    background: white;
+    border: 1px solid #a0a096;
+    line-height: 1.125em;
 }
 
-@media (max-width: 768px) {
-    select {
-        font-size: 16px;
-    }
-
-    table,
-    th,
-    td {
-        font-size: 14px;
-    }
-
-    .escogerhora {
-        transform: translateX(0);
-    }
-
-    .escogerprof, 
-    .partetabla {
-        flex-direction: column;
-    }
-
-    .todoingreso {
-        flex-direction: column;
-    }
-
-    .cuadros {
-        width: 100%;
-        font-size: 14px;
-        padding: 8px;
-        margin: 4px;
-    }
+.react-calendar__navigation {
+    display: flex;
+    height: 44px;
+    margin-bottom: 1em;
+    background-color: #ffdceb;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 576px) {
-    select {
-        font-size: 14px;
-    }
+.horarios-container {
+    display: flex;
+    margin-top: 20px;
+    align-content: center;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
 
-    table,
-    th,
-    td {
-        font-size: 12px;
-    }
+.Resumendecompra_Agendamiento {
+    background-color: #FCEBF2;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin: 20px;
+}
 
-    .cuadros {
-        font-size: 12px;
-        padding: 6px;
-        margin: 2px;
-    }
+.titulo_Resumendecompra_Agendamiento {
+    background-color: #422A3C;
+    color: #ffffff;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
 
-    .eschor,
-    .datosfecha {
-        font-size: 24px;
-    }
+.titulo_Resumendecompra_Agendamiento h3 {
+    text-align: center;
+    font-size: 30px;
+}
+
+button {
+    background-color: #422A3C;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #5c3f5d;
+}
+
+.main-content {
+    display: flex;
+    width: 100%;
+}
+
+.left-section {
+    width: 50%;
+    padding: 1rem;
+}
+
+.right-section {
+    width: 50%;
+    padding: 1rem;
+    background-color: #dddddd59;
+    border: 2px solid #422a3c36;
+    margin: 25px;
+    border-radius: 10px;
+}
+
+.agendamiento-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.horarios-container {
+    margin-top: 20px;
+    /* Asegura que el título esté en una columna separada */
+}
+
+.titulo_horarios {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.horarios-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }

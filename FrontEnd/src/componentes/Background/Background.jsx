@@ -69,7 +69,7 @@ export const Background = () => {
 
                 <div className='bottoncentrado'>
                     <NavLink to="/servicios">
-                        <button type="button" className="buttonservi">Servicios</button>
+                        <button type="button" className="buttonservi">SERVICIOS</button>
                     </NavLink>
                 </div>
             </div>

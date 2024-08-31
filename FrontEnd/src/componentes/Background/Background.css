@@ -158,6 +158,10 @@ html, body {
   overflow-y: scroll;
 }
 
+a {
+  text-decoration: none;
+}
+
 .backgroundtercero {
   display: flex;
   justify-content: space-evenly;

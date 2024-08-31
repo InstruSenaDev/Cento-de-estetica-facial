@@ -1,9 +1,29 @@
-body {
+body , html{
   background-color: #ffffff;
   margin: 0;
   padding: 0;
+  height: 100%;
+  margin: 0;
   font-family: "Playfair Display", serif;
 }
+
+.footer {
+  margin-top: auto; /* Empuja el footer hacia el fondo */
+  width: 100%;
+  background-color: #FCEBF2;
+  color: #000000;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Altura mínima para ocupar toda la ventana */
+}
+
 
 .footer {
   width: 100%;
