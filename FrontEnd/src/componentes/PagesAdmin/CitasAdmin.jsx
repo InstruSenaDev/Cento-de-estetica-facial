@@ -10,7 +10,6 @@ const Citas = ({ token }) => {
   const [user, setUser] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [profesionalName, setProfesionalName] = useState(''); // Estado para almacenar el nombre del profesional
   const citasPerPage = 5;
 
   useEffect(() => {
@@ -47,9 +46,6 @@ const Citas = ({ token }) => {
           console.error('Error fetching appointments:', error);
         } else {
           setAppointments(data || []);
-          if (data && data.length > 0) {
-            setProfesionalName(data[0].profesional.nombre_profesional); // Suponiendo que todos los datos tienen el mismo profesional
-          }
         }
       }
     };
@@ -107,7 +103,7 @@ const Citas = ({ token }) => {
   return (
     <Container>
       <div className='titulo_Citas_Admin'>
-        <h1>{profesionalName ? `Citas con ${profesionalName}` : 'Citas Administrador'}</h1>
+        <h1>Citas Administrador</h1>
       </div>
       <div className='Contenido_Citas_Admin'>
         <hr />
@@ -123,7 +119,7 @@ const Citas = ({ token }) => {
             <th>Hora</th>
             <th>Duración</th>
             <th>Servicio</th>
-            
+            <th>Profesional</th>
           </tr>
         </thead>
         <tbody>
@@ -131,11 +127,10 @@ const Citas = ({ token }) => {
             <tr key={cita.id_cita}>
               <td>{cita.usuarios}</td>
               <td>{cita.fecha}</td>
-              {/* <td>{cita.franja_horaria}</td> */}
               <td>{cita.duracion}</td>
               <td>1 hora</td>
-              <td>{cita.servicio.nombre_servicio}</td> {/* Mostrar el nombre del servicio aquí */}
-                
+              <td>{cita.servicio.nombre_servicio}</td>
+              <td>{cita.profesional.nombre_profesional}</td> {/* Mostrar el nombre del profesional aquí */}
             </tr>
           ))}
         </tbody>
