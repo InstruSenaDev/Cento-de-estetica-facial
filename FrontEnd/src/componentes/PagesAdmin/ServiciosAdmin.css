@@ -1,0 +1,343 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  font-family: "Manrope", sans-serif;
+}
+
+.container {
+  font-family: "Manrope", sans-serif;
+  background-color: #ffffff;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Cabecera */
+.titulo_Header_Servicios_Admin {
+  background-color: #fcebf2;
+  border: 3px solid #c98695;
+  border-radius: 10px;
+  text-align: center;
+  padding: 15px;
+  font-family: "Playfair Display", serif;
+  font-weight: normal;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+/* Contenido general */
+.Tabla_Contenido_Servicios_Admin {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Sección de Servicios */
+.titulo_Contenido_Header_Servicios_Admin {
+  background-color: #fcebf2;
+  border: 2px solid #c98695;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.contenido_Header_Servicios_Admin {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding: 15px;
+  background-color: #fcebf2;
+  border: 1px solid #c98695;
+  border-radius: 10px;
+  gap: 10px;
+}
+
+.edicion_contenido {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.nombre_servicio_boton {
+  font-size: 17px;
+  background-color: transparent;
+  border: none;
+  color: #000;
+  cursor: pointer;
+}
+
+.ajustes_edicion_contenido {
+  display: flex;
+  gap: 10px;
+}
+
+.edicion_contenido_boton {
+  font-size: 14px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #c98695;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.edicion_contenido_boton:hover {
+  background-color: #a75d53;
+}
+
+/* Sección del Calendario */
+.calendario_Contenido_Servicios_Admin {
+  background-color: #fcebf2;
+  padding: 20px;
+  border: 1px solid #c98695;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.titulo_calendario_Contenido_Servicios_Admin {
+  background-color: #c98695;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.titulo_calendario_Contenido_Servicios_Admin h3 {
+  background-color: #fcebf2;
+  border-radius: 5px;
+  margin: 0;
+  padding: 10px;
+  font-family: "Playfair Display", serif;
+  font-weight: normal;
+}
+
+/* Calendario */
+.react-calendar {
+  width: 100%;
+  max-width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #c98695;
+  border-radius: 10px;
+}
+
+.react-calendar__tile {
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.react-calendar__tile--active {
+  background-color: #c98695;
+  color: #fff;
+}
+
+.react-calendar__tile--hasActive {
+  background-color: #c98695;
+  color: #fff;
+}
+
+.selected-date {
+  background-color: #c98695 !important;
+  color: #fff !important;
+
+}
+
+.selected-date > abbr {
+  background-color: #c98695 !important;
+  color: #fff !important;
+  
+}
+
+/* Estilo para las fechas seleccionadas en la vista previa */
+.datosfecha {
+  background-color: #fcebf2;
+  border: 1px solid #c98695;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.fecha-seleccionada {
+  display: block;
+  font-size: 20px;
+  color: #000;
+}
+
+.fecha-seleccionada + .fecha-seleccionada {
+  margin-top: 5px;
+}
+
+/* Estilos del Modal */
+.modal-content {
+  background: #fcebf2;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-content input {
+  width: calc(100% - 20px);
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modal-content button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #c98695;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.modal-content button:hover {
+  background-color: #a75d53;
+}
+
+.add-service-container{
+  padding: auto;
+  gap: 10px;
+  margin: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content:center;
+  align-items: center;
+}
+
+.add-service-container input{
+  background-color: transparent;
+  border: 2px solid #c98695;
+  border-radius: 5px; 
+}
+
+.handleAddService{
+  background-color: #fcebf2;
+  border: 2px solid #c98695;
+  border-radius: 5px; 
+  padding: 1rem;
+  font-size: 18px;
+  font-family: "Playfair Display", serif;
+  font-weight: bold;
+}
+
+.titulo-add-service{
+  background-color: #fcebf2;
+  border: 10px solid #c98695;
+  border-radius: 10px; 
+  padding: 1rem;
+  font-size: 20px;
+  font-family: "Playfair Display", serif;
+  text-align: center;
+  margin-top: 1%;
+} 
+
+.titulo-add_personal_form{
+  
+  border: 10px solid #c98695;
+  border-radius: 10px;
+  font-size: 20px;
+  font-family: "Playfair Display", serif;
+  text-align: center;
+  margin-top: 1%; 
+}
+
+.btn-flotante {
+	font-size: 16px; /* Cambiar el tamaño de la tipografia */
+	text-transform: uppercase; /* Texto en mayusculas */
+	font-weight: bold; /* Fuente en negrita o bold */
+	color: #000000; /* Color del texto */
+	border-radius: 5px; /* Borde del boton */
+	letter-spacing: 2px; /* Espacio entre letras */
+	background-color: #fcebf2; /* Color de fondo */
+	padding: 18px 30px; /* Relleno del boton */
+	position: fixed;
+	bottom: 40px;
+	right: 40px;
+	transition: all 300ms ease 0ms;
+	box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+	z-index: 99;
+}
+.btn-flotante:hover {
+	background-color: #c98695; /* Color de fondo al pasar el cursor */
+  color: #ffffff;
+	box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
+	transform: translateY(-7px);
+}
+@media only screen and (max-width: 600px) {
+ 	.btn-flotante {
+		font-size: 14px;
+		padding: 12px 20px;
+		bottom: 20px;
+		right: 20px;
+	}
+}
+
+.calendario-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.selected-date {
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+  padding-top: 60px;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.escogerhora input[type="time"] {
+  margin: 0.5rem 0;
+}
