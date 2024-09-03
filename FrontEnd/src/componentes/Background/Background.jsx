@@ -83,13 +83,17 @@ export const Background = () => {
                     <iframe
                         title="mapa-google"
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.252909459382!2d-76.28432612415621!3d3.528953850698741!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3a04cfe462dcb5%3A0xb25c0482a0fa3512!2sCl.%2033%20B%20%23753%2C%20Palmira%2C%20Valle%20del%20Cauca!5e0!3m2!1ses-419!2sco!4v1717762104956!5m2!1ses-419!2sco"
-                        width="100%" height="450" style={{ border: 0 }} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"> </iframe>
-
-                    <div className='Boton_Politicas'>
-                        <NavLink to="/politicas"> 
-                        <button className="Boton_Politicas" type="button">CONOCE MÁS</button>
-                        </NavLink>
-                    </div>
+                        width="100%"
+                        height="450"
+                        style={{ border: 0 }}
+                        allowFullScreen=""
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                    ></iframe>
+                    <NavLink to="/politicas">
+                    <div className='Boton_conocemas'>
+                        <button type="button">CONOCE MÁS</button></div>
+                    </NavLink>
                 </div>
             </div>
         </div>

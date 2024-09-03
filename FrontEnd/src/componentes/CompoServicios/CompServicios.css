@@ -21,7 +21,7 @@ body {
 }
 
 .tituloserviciosg h1 {
-    font-size: 3rem; 
+    font-size: 3rem; /* Tamaño ajustado para que sea responsivo */
     color: #422A3C;
     font-weight: 700;
     margin: 0;
@@ -31,7 +31,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    padding: 0 10px; 
+    padding: 0 10px; /* Espaciado horizontal para evitar que el contenido toque los bordes */
 }
 
 .Titulo_Servicio_Cejas,
@@ -46,6 +46,14 @@ body {
 .Titulo_Servicio_Pestañas h3,
 .Titulo_Servicio_Microp h3 {
     font-size: 2.5rem; 
+    color: #422A3C;
+    margin: 0;
+}
+
+.Titulo_Servicio_Cejas h3,
+.Titulo_Servicio_Pestañas h3,
+.Titulo_Servicio_Microp h3 {
+    font-size: 2.5rem; /* Tamaño de fuente consistente para los títulos */
     color: #422A3C;
     margin: 0;
 }
@@ -105,35 +113,26 @@ body {
     color: #C98695;
 }
 
-.button_s {
-    color: #FCEBF2;
-    border: 1px solid  #FCEBF2;
-    padding: 12px 30px 12px 30px;
-    border-radius: 30px;
+.butonSs {
+    margin-top: 10px;
+    border: 0;
     background-color: #C98695;
-    font-weight: bolder;
-    font-size: 15px;
-    box-shadow: 0px 0px 1px;
-    transform: all 2s esase;
-    transition-duration: .3s;
-  }
-  
-  .button_s:hover {
-    transform: translateY(-10px);
-    box-shadow: 0px 7px 1px  #000000;
-    border: 1px solid  #C98695;
-  }
-  
-  .button_s:active {
-    transform: translateY(10px);
-    box-shadow: 0px 0px 1px;
-  }
-    
+    border-radius: 5px;
+    padding: 10px 20px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.butonSs:hover {
+    background-color: #a76e66;
+}
 
 /* Media Queries */
 @media (max-width: 1200px) {
     .tituloserviciosg h1 {
-        font-size: 2.5rem; 
+        font-size: 2.5rem; /* Ajustado para pantallas más pequeñas */
     }
 
     .secciones_servicios {
@@ -144,7 +143,7 @@ body {
 
 @media (max-width: 992px) {
     .tituloserviciosg h1 {
-        font-size: 2rem; 
+        font-size: 2rem; /* Ajustado para pantallas más pequeñas */
     }
 
     .secciones_servicios {
@@ -167,7 +166,7 @@ body {
 
 @media (max-width: 768px) {
     .tituloserviciosg h1 {
-        font-size: 1.8rem; 
+        font-size: 1.8rem; /* Ajuste para pantallas más pequeñas */
     }
 
     .serviciosdetc h5,

@@ -1,0 +1,16 @@
+.date-range-picker {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .date-range-picker label {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .date-range-picker input {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }

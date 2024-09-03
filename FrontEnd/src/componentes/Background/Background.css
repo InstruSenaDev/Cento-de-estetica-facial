@@ -164,7 +164,7 @@ a {
 
 .backgroundtercero {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
   background-image: url(../../assets/images/fondo3.png);
   width: 100vw;
@@ -208,7 +208,7 @@ a {
 }
 
 .enunciados h2 {
-  font-size: 36px; /* Tamaño del título principal */
+  font-size: 50px; /* Tamaño del título principal */
   margin-bottom: 20px; /* Espacio inferior */
 }
 
@@ -239,6 +239,7 @@ a {
   justify-content: center;
   border-radius: 10px;
 }
+
 
 .servicios {
   --bs-btn-color: #000000;
@@ -282,6 +283,7 @@ a {
   background-color: #ffffff; /* Color de fondo del botón */
   color: #BF6A8C; /* Color del texto del botón */
   border: none; /* Sin borde */
+  border-radius: 5px;
   padding: 10px 20px; /* Espaciado interno */
   font-size: 18px; /* Tamaño de fuente */
   cursor: pointer; /* Cursor de puntero */

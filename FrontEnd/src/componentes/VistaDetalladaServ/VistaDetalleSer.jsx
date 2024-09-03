@@ -44,7 +44,7 @@ export const VistaDetalle = () => {
               </div>
             </div>
             <div className='botones'>
-              <button className="button_R" onClick={handleReservar}>Reservar</button>
+              <button className="button_s" onClick={handleReservar}>Reservar</button>
             </div>
           </div>
           <div className='imagen-contenedor'>
