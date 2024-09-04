@@ -5,7 +5,7 @@ import 'react-calendar/dist/Calendar.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import supabase from '../../supabase/supabaseconfig';
 import FacturacionModal from '../Factura/Factura';
-
+ 
 const getDiaSemana = (date) => {
     const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
     return diasSemana[date.getDay()];
@@ -243,7 +243,7 @@ export const Agendamiento = () => {
           
             {/* <FacturacionModal 
             
-                show={showModal}
+                show={showModal} // Usar 'show' en lugar de 'showModal'
                 onHide={() => setShowModal(false)} 
                 fecha={date}
                 duracion={selectedHora}

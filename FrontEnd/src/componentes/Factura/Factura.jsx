@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import supabase from '../../supabase/supabaseconfig';
 import { Modal, Button } from 'react-bootstrap';
-import { useNavigate, useLocation } from 'react-router-dom'; // Asegúrate de importar useNavigate y useLocation
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Factura.css';
 
 const FacturacionModal = ({ token }) => {
@@ -9,15 +9,13 @@ const FacturacionModal = ({ token }) => {
     const location = useLocation();
     const { state } = location;
     const { fecha, duracion, idProfesional, servicio, idUsuario } = state;
-
     const parsedFecha = fecha ? new Date(fecha) : null;
     const formattedFecha = parsedFecha && !isNaN(parsedFecha) ? parsedFecha.toLocaleDateString() : 'Fecha no disponible';
-
     const [user, setUser] = useState(null);
     const [nombreProfesional, setNombreProfesional] = useState('');
     const [idHorario, setIdHorario] = useState(null);
     const [modalMessage, setModalMessage] = useState('');
-    const [showModal, setShowModal] = useState(false); 
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -47,24 +45,30 @@ const FacturacionModal = ({ token }) => {
 
         const fetchIdHorario = async () => {
             if (duracion) {
+                console.log('Duración:', duracion);
+        
                 const { data, error } = await supabase
                     .from('franja_horaria')
                     .select('id_horario')
-                    .eq('hora', duracion)
-                    .single();
-
+                    .eq('hora', duracion.trim());
+        
                 if (error) {
                     console.error('Error fetching horario ID:', error);
+                } else if (data.length > 0) {
+                    console.log('Horario ID(s) obtenido(s):', data);
+                    setIdHorario(data[0].id_horario); 
                 } else {
-                    setIdHorario(data?.id_horario || null);
+                    console.log('No se encontraron horarios que coincidan.');
+                    setIdHorario(null);
                 }
             }
         };
+        
 
         fetchUser();
         fetchNombreProfesional();
         fetchIdHorario();
-    }, [idProfesional, idUsuario, token, duracion]);
+    }, [idProfesional, idUsuario, idHorario, token, duracion]);
 
     const handleGuardarCita = async () => {
         if (!user) {
@@ -83,16 +87,15 @@ const FacturacionModal = ({ token }) => {
             .from('cita')
             .insert([{
                 fecha: fecha.toISOString().split('T')[0],
-                franja_horaria: idHorario,
                 profesional: idProfesional,
                 servicio: servicio?.id_servicios,
                 usuarios: user.id,
-                duracion: duracion,
-                estado: 'true'
+                duracion: duracion, // Asumiendo que `duracion` ya es una hora en formato 'HH:MM:SS'
+                estado: 'TRUE'
             }]);
 
         if (error) {
-            setModalMessage(`Error al guardar la cita: ${error.message}`);
+            setModalMessage(`Error al guardar la cita: ${error.message}`);  
         } else {
             setModalMessage('Cita guardada con éxito. Un administrador verificará tu cita.');
             setShowModal(true);
@@ -109,8 +112,6 @@ const FacturacionModal = ({ token }) => {
                 </div>
 
                 <div className='explicacion_factura'>
-                    <h2>Factura</h2>
-                    <h2>id:factura</h2>
                     <h2>Fecha: {formattedFecha}</h2>
                 </div>
 
@@ -124,17 +125,13 @@ const FacturacionModal = ({ token }) => {
                         <p><strong>Hora:</strong> {duracion}</p>
                         <p><strong>Profesional:</strong> {nombreProfesional}</p>
                         <p><strong>Servicio:</strong> {servicio?.nombre_servicio}</p>
-                        <p><strong>Costo:</strong> {servicio?.precio}</p>
+                        <p><strong>Costo:</strong> <b>{new Intl.NumberFormat('es-CO', {
+                            style: 'currency',
+                            currency: 'COP',
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 2
+                        }).format(servicio.precio)}</b></p>
                         <p><strong>Cliente:</strong> {user ? user.user_metadata.full_name : 'No disponible'}</p>
-                    </div>
-                    <div className='contenido_invoice-section'>
-                        <p></p>
-                        <p></p>
-                        <p></p>
-                        <p></p>
-                        <p></p>
-                        <p></p>
-                        <p></p>
                     </div>
                 </div>
 
