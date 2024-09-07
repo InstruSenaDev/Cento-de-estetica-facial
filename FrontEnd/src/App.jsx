@@ -14,6 +14,8 @@ import ModalRegistro from './componentes/modal/ModalRegistro';
 import Facturaelectronica from './pages/FacturaElectronica';
 import { VistaServicios } from './pages/VistaServicios';
 import CitaPend from './pages/CitasPendientes';
+import RecoverPassword from './componentes/Recuperarcontraseña/Recuperarcontraseña';
+import ResetPassword from './componentes/Recuperarcontraseña/Nuevacontraseña';
 
 function Main() {
     const { setLoading } = useLoading();
@@ -38,6 +40,10 @@ function Main() {
                 <Route path="/acerca" element={<Acerca_de />} />
                 <Route path="/politicas" element={<Condiciones />} />
                 <Route path="/Agendarcita" element={<Agendar />} />
+                <Route path="/recover" element={<RecoverPassword />} />
+                <Route path="/NuevaContraseña" element={<ResetPassword />} />
+
+
             </Routes>
             <Modalinicio />
             <ModalRegistro />

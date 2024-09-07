@@ -1,0 +1,42 @@
+/* Login.css */
+.hover-pointer {
+    cursor: pointer;
+}
+
+.registrarme-link:hover,
+.hover-pointer:hover {
+    cursor: pointer;
+}
+
+/* RecoverPassword.css */
+.recover-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.recover-body form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.recover-body input {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.recover-body button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.recover-body button:hover {
+    background-color: #45a049;
+}

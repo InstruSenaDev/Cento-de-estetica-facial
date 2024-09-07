@@ -45,11 +45,16 @@ const LoginUser = ({ closeModal }) => {
 
             const redirectTo = location.state?.from || '/';
             navigate(redirectTo);
-            closeModal();
+            closeModal();  // Cierra el modal después de la redirección
         } catch (error) {
             console.error("Caught error:", error);
             alert(error.message);
         }
+    }
+
+    function handleForgotPasswordClick() {
+        closeModal(); // Cierra el modal antes de redirigir
+        navigate('/recover'); // Redirige a la página de recuperación de contraseña
     }
 
     return (
@@ -77,7 +82,12 @@ const LoginUser = ({ closeModal }) => {
                         />
                     </div>
                     <div className='passwordforgot'> 
-                        <Link to={'/Recover'}>Haz olvidado contraseña?</Link>
+                        <span 
+                            className="hover-pointer" 
+                            onClick={handleForgotPasswordClick}
+                        >
+                            Haz olvidado contraseña?
+                        </span>
                     </div>
                 </div>
                 <button className="botoningresar" type='submit'>Ingresar</button>
@@ -89,7 +99,7 @@ const LoginUser = ({ closeModal }) => {
             </form>
             <div className='poncuenta'>
                 <p>No tengo cuenta. <span 
-                    className="registrarme-link" 
+                    className="registrarme-link hover-pointer" 
                     onClick={() => openModal('SignUp')}
                 >
                     Registrarme
