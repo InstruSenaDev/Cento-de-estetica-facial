@@ -85,7 +85,8 @@ const Citas = ({ token }) => {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="Container">
+    <Container>
+    <div className="Container_C_A">
       <div className='titulo_Citas_Admin'>
         <h1>Citas Administrador</h1>
       </div>
@@ -141,18 +142,19 @@ const Citas = ({ token }) => {
         paginate={paginate} 
       />
     </div>
+    </Container>
   );
 }
 
 
 const Container = styled.div`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  min-height: 100vh;  // Asegura que ocupe al menos todo el alto del viewport
   padding: 20px;
   box-sizing: border-box;
+  margin-left: ${({ sidebarOpen }) => (sidebarOpen ? '300px' : '70px')};  
+  transition: margin-left 0.3s;
 `;
+
 
 const Table = styled.table`
   width: 100%;

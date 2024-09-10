@@ -290,7 +290,9 @@ const MainLayout = styled.div`
 const MainContent = styled.div`
   margin-left: ${({ sidebarOpen }) => (sidebarOpen ? '300px' : '70px')};
   transition: margin-left 0.3s;
-  width: 100%;
+  // width: calc(100% - ${({ sidebarOpen }) => (sidebarOpen ? '300px' : '70px')});  
   padding: 20px;
+  min-height: 100vh;  
 `;
+
 //#endregion

@@ -89,8 +89,12 @@ export function PersonalAdmin() {
 }
 
 const Container = styled.div`
-  height: 100vh;
+  min-height: 100vh;  // Asegura que ocupe al menos todo el alto del viewport
   padding: 20px;
+  box-sizing: border-box;
+  margin-left: ${({ sidebarOpen }) => (sidebarOpen ? '300px' : '70px')};  // Ajuste dependiendo del sidebar
+  transition: margin-left 0.3s;
 `;
+
 
 export default PersonalAdmin;
