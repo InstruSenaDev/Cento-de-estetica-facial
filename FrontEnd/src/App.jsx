@@ -21,6 +21,7 @@ import { LoadingProvider, useLoading } from './componentes/Animación/Loadingcon
 import styled, { ThemeProvider } from "styled-components";
 import { Sidebar } from "./componentes/Sidebar/Sidebar";
 import { MyRoutes } from "./componentes/PagesAdmin/routers/Route";
+// import { NotFound } from "./pages/NotFound";
 import { Light, Dark } from "./Styles/Themes";
 
 export const ThemeContext = React.createContext(null);
@@ -103,6 +104,7 @@ function App() {
                     <Route path='/Agendarcita' element={<Agendar />} />
                     <Route path='/Dahsboard'element={<Sidebar/>} />
                     <Route path='/CITA' element={<CitaAdmin/>}/>
+                  
                   
                 </Routes>
             </Router>
