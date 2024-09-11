@@ -32,25 +32,22 @@ export function ServiciosAdmin() {
   const handleEditClick = async (service) => {
     setEditableService(service);
     setModalOpen(true);
-    setSelectedService(null); // Reset selected service to hide calendar
-    setServiceTimes({}); // Clear service times
+    setSelectedService(null);
+    setServiceTimes({});
   };
 
   const handleSelectClick = async (service) => {
     setSelectedService(service);
-    setEditableService(null); // Reset editable service
-    setModalOpen(false); // Close modal if open
-  
-    // Reset service times and selected dates
+    setEditableService(null);
+    setModalOpen(false);
     setServiceTimes({});
     setSelectedDates([]);
-  
-    // Fetch service times for the selected service using nombre_servicio
+
     const { data, error } = await supabase
       .from('franja_horaria_nueva')
       .select('*')
       .eq('nombre_servicio', service.nombre_servicio);
-  
+
     if (error) console.error('Error fetching service times:', error);
     else {
       const serviceTimes = data.reduce((acc, item) => {
@@ -62,14 +59,14 @@ export function ServiciosAdmin() {
         return acc;
       }, {});
       setServiceTimes(serviceTimes);
-      setSelectedDates(Object.keys(serviceTimes).map(date => new Date(date))); // Set selected dates for calendar
+      setSelectedDates(Object.keys(serviceTimes).map(date => new Date(date)));
     }
   };
 
   const handleModalClose = () => {
     setModalOpen(false);
     setEditableService(null);
-    setSelectedService(null); // Also reset the selected service to hide calendar
+    setSelectedService(null);
   };
 
   const handleServiceUpdate = async () => {
@@ -77,12 +74,7 @@ export function ServiciosAdmin() {
 
     const { data, error } = await supabase
       .from('servicios')
-      .update({
-        nombre_servicio: editableService.nombre_servicio,
-        descripcion: editableService.descripcion,
-        duracion: editableService.duracion,
-        precio: editableService.precio
-      })
+      .update(editableService)
       .eq('id_servicios', editableService.id_servicios);
 
     if (error) {
@@ -138,17 +130,17 @@ export function ServiciosAdmin() {
       setServiceTimes(newServiceTimes);
     }
   };
+
   const handleTimeChange = (date, index, value) => {
     if (selectedService) {
       const dateString = date.toDateString();
       const newServiceTimes = { ...serviceTimes };
-  
-      // Validar si la nueva hora ya existe
+
       if (newServiceTimes[dateString].includes(value)) {
         alert('Esta hora ya está seleccionada.');
         return;
       }
-  
+
       newServiceTimes[dateString][index] = value;
       setServiceTimes(newServiceTimes);
     }
@@ -158,17 +150,16 @@ export function ServiciosAdmin() {
     if (selectedService) {
       const dateString = date.toDateString();
       const newServiceTimes = { ...serviceTimes };
-  
-      // Validar si la hora '00:00' ya está presente
+
       if (newServiceTimes[dateString] && newServiceTimes[dateString].includes('00:00')) {
         alert('Esta hora ya está seleccionada.');
         return;
       }
-  
+
       if (!newServiceTimes[dateString]) {
         newServiceTimes[dateString] = [];
       }
-  
+
       newServiceTimes[dateString].push('00:00');
       setServiceTimes(newServiceTimes);
     }
@@ -190,55 +181,82 @@ export function ServiciosAdmin() {
   };
 
   const handleUpdateAll = async () => {
-  // Prepare data for update
-  const allUpdates = Object.entries(serviceTimes).flatMap(([date, times]) => 
-    times.map(time => ({
-      nombre_servicio: selectedService.nombre_servicio,
-      fecha: date,
-      hora: time,
-      estado: 'disponible' // Assuming default status is available
-    }))
-  );
+    const allUpdates = Object.entries(serviceTimes).flatMap(([date, times]) => 
+      times.map(time => ({
+        nombre_servicio: selectedService.nombre_servicio,
+        fecha: date,
+        hora: time,
+        estado: 'disponible'
+      }))
+    );
 
-  // Check for existing records with the same date and time
-  for (let update of allUpdates) {
-    const { data: existingRecords, error: checkError } = await supabase
-      .from('franja_horaria')
-      .select('*')
-      .eq('nombre_servicio', update.nombre_servicio)
-      .eq('fecha', update.fecha)
-      .eq('hora', update.hora);
+    for (let update of allUpdates) {
+      const { data: existingRecords, error: checkError } = await supabase
+        .from('franja_horaria')
+        .select('*')
+        .eq('nombre_servicio', update.nombre_servicio)
+        .eq('fecha', update.fecha)
+        .eq('hora', update.hora);
 
-    if (checkError) {
-      console.error('Error verificando duplicados:', checkError);
-      alert(`Error verificando duplicados: ${checkError.message}`);
-      return;
+      if (checkError) {
+        console.error('Error verificando duplicados:', checkError);
+        alert(`Error verificando duplicados: ${checkError.message}`);
+        return;
+      }
+
+      if (existingRecords.length > 0) {
+        alert(`Ya existe una franja horaria para la fecha ${update.fecha} a las ${update.hora}. No se guardará.`);
+        continue;
+      }
+
+      const { error: insertError } = await supabase.from('franja_horaria').upsert([update]);
+
+      if (insertError) {
+        console.error('Error al actualizar horarios de servicios:', insertError);
+        alert(`Error actualizando horarios de servicios: ${insertError.message}`);
+        return;
+      }
     }
 
-    if (existingRecords.length > 0) {
-      alert(`Ya existe una franja horaria para la fecha ${update.fecha} a las ${update.hora}. No se guardará.`);
-      continue; // Skip this update
+    alert('Horarios actualizados correctamente.');
+    setServiceTimes({});
+  };
+
+  const handleToggleService = async () => {
+    if (!editableService) return;
+
+    const updatedService = {
+      ...editableService,
+      habilitado: !editableService.habilitado // Cambiar el estado de habilitado
+    };
+
+    const { data, error } = await supabase
+      .from('servicios')
+      .update(updatedService)
+      .eq('id_servicios', updatedService.id_servicios);
+
+    if (error) {
+      console.error('Error al habilitar/deshabilitar servicio:', error);
+      alert(`Error habilitando/deshabilitando el servicio: ${error.message}`);
+    } else {
+      setEditableService(updatedService);
+      setServicios(prevServicios =>
+        prevServicios.map(service =>
+          service.id_servicios === updatedService.id_servicios ? updatedService : service
+        )
+      );
     }
-
-    // Proceed with the upsert only if no duplicates found
-    const { error: insertError } = await supabase.from('franja_horaria').upsert([update]);
-
-    if (insertError) {
-      console.error('Error al actualizar horarios de servicios:', insertError);
-      alert(`Error actualizando horarios de servicios: ${insertError.message}`);
-      return;
-    }
-  }
-
-  alert('Horarios actualizados correctamente.');
-  // Reset updates after successful submission
-  setServiceTimes({});
-};
+  };
 
   return (
     <Container>
       <div className="titulo_Header_Servicios_Admin">
         <h1>Sección Servicios</h1>
+      </div>
+      <div className='contenidot_Header_Servicios_Admin'>
+        <p>Hola, en esta sección podrás agregar las horas disponibles para las citas por cada servicio.</p>
+        <p><b>Recomendación</b></p>
+        <p>Agendar las citas de la semana con anticipación ya que al cliente no se le permite agendar citas para el mismo día.</p>
       </div>
 
       <div className="Tabla_Contenido_Servicios_Admin">
@@ -251,7 +269,10 @@ export function ServiciosAdmin() {
           <div className="contenido_Header_Servicios_Admin">
             {servicios.map(service => (
               <div key={service.id_servicios} className="edicion_contenido">
-                <button className="nombre_servicio_boton" onClick={() => handleSelectClick(service)}>
+                <button
+                  className="nombre_servicio_boton"
+                  onClick={() => handleSelectClick(service)}
+                >
                   {service.nombre_servicio}
                 </button>
 
@@ -268,7 +289,7 @@ export function ServiciosAdmin() {
         {selectedService && (
           <div className="calendario_Contenido_Servicios_Admin">
             <div className="titulo_calendario_Contenido_Servicios_Admin">
-              <h3>Calendario Citas</h3>
+              <h3>Agregar horas para {selectedService.nombre_servicio}</h3>
             </div>
             <div className='calendario-container'>
               <Calendar
@@ -383,6 +404,16 @@ export function ServiciosAdmin() {
                       onChange={(e) => setEditableService({ ...editableService, precio: e.target.value })}
                     />
                   </p>
+                  <p>
+                    <label>
+                      Habilitado:
+                      <input
+                        type="checkbox"
+                        checked={editableService.habilitado}
+                        onChange={handleToggleService}
+                      />
+                    </label>
+                  </p>
                   <button onClick={handleServiceUpdate}>Actualizar</button>
                 </div>
               )}
@@ -396,10 +427,10 @@ export function ServiciosAdmin() {
 }
 
 const Container = styled.div`
- min-height: 100vh;  
-   padding: 20px;
+  min-height: 100vh;  
+  padding: 20px;
   box-sizing: border-box;
-  margin-left: ${({ sidebarOpen }) => (sidebarOpen ? '300px' : '70px')};  // Ajuste dependiendo del sidebar
+  margin-left: ${({ sidebarOpen }) => (sidebarOpen ? '300px' : '70px')}; 
   transition: margin-left 0.3s;
 `;
 

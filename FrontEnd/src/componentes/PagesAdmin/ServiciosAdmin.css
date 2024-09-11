@@ -341,3 +341,24 @@ body {
 .escogerhora input[type="time"] {
   margin: 0.5rem 0;
 }
+
+.contenidot_Header_Servicios_Admin p {
+  text-align: center;
+  font-size: 18px;
+  font-family: "Playfair Display", serif;
+  color: #422A3C;
+}
+
+.contenidot_Header_Servicios_Admin{
+  width: 100%;
+ background-color: #fcebf2;
+ border: solid 2px #c98695;
+ border-radius: 10px;
+ padding: 1rem;
+ margin-bottom: 1%;
+}
+
+.titulo_Contenido_Header_Servicios_Admin h3{
+  font-family: "Playfair Display", serif;
+  color: #422A3C;
+}
