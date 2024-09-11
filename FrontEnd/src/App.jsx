@@ -22,6 +22,7 @@ import styled, { ThemeProvider } from "styled-components";
 import { Sidebar } from "./componentes/Sidebar/Sidebar";
 import { MyRoutes } from "./componentes/PagesAdmin/routers/Route";
 import { Light, Dark } from "./Styles/Themes";
+
 export const ThemeContext = React.createContext(null);
 import SignUp from './pages/SignUp';
 import LoginUser from './pages/Login';
@@ -102,6 +103,7 @@ function App() {
                     <Route path='/Agendarcita' element={<Agendar />} />
                     <Route path='/Dahsboard'element={<Sidebar/>} />
                     <Route path='/CITA' element={<CitaAdmin/>}/>
+                  
                 </Routes>
             </Router>
         </LoadingProvider>

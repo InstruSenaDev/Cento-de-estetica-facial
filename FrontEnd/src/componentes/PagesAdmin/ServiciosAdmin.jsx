@@ -396,9 +396,11 @@ export function ServiciosAdmin() {
 }
 
 const Container = styled.div`
-  height: 100vh;
-  padding: 20px;
+ min-height: 100vh;  
+   padding: 20px;
   box-sizing: border-box;
+  margin-left: ${({ sidebarOpen }) => (sidebarOpen ? '300px' : '70px')};  // Ajuste dependiendo del sidebar
+  transition: margin-left 0.3s;
 `;
 
 const Modal = styled.div`
