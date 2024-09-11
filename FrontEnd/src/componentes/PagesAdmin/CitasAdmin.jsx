@@ -35,10 +35,15 @@ const CitasAdmin = ({ token }) => {
       try {
         const { data, error } = await supabase
           .from('cita')
-          .select('id_cita, fecha, estado, usuarios, servicio, profesional, duracion')
-          .eq('profesional', 1);
+          .select('id_cita, fecha, estado, usuarios, servicio(nombre_servicio), profesional, duracion') // Traer nombre_servicio
+          .eq('profesional', 1); // Filtrar por profesional si es necesario
         if (error) throw error;
-        setCitas(data);
+        // Establecer estado por defecto como false
+        const citasConEstado = data.map(cita => ({
+          ...cita,
+          estado: false // Todos sin aprobar por defecto
+        }));
+        setCitas(citasConEstado);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching citas:', error);
@@ -66,11 +71,11 @@ const CitasAdmin = ({ token }) => {
       try {
         const { data, error } = await supabase
           .from('cita')
-          .update({ estado: 'Abono' })
+          .update({ estado: true }) // Cambiar a booleano
           .eq('id_cita', cita.id_cita);
         if (error) throw error;
         console.log('Cita aprobada correctamente');
-        setCitas(citas.map(c => c.id_cita === cita.id_cita ? { ...c, estado: 'Abono' } : c));
+        setCitas(citas.map(c => c.id_cita === cita.id_cita ? { ...c, estado: true } : c));
       } catch (error) {
         console.error('Error al aprobar cita:', error);
       }
@@ -116,17 +121,17 @@ const CitasAdmin = ({ token }) => {
                 <td>{cita.usuarios}</td> 
                 <td>{cita.fecha}</td>
                 <td>{moment(cita.duracion, 'HH:mm').format('h:mm A')}</td>
-                <td>{cita.servicio}</td>
+                <td>{cita.servicio.nombre_servicio}</td> {/* Mostrar nombre_servicio */}
                 <td>
                   <input 
                     type="checkbox" 
                     id={`estado${index}`} 
                     name={`estado${index}`} 
-                    checked={cita.estado === 'Abono'} 
+                    checked={cita.estado} // Comprobar si el estado es verdadero
                     onChange={() => handleAcceptCita(cita)} 
-                    readOnly={cita.estado === 'Abono'}
+                    readOnly={cita.estado} // Solo se puede cambiar si es falso
                   />
-                  <label htmlFor={`estado${index}`}>{cita.estado}</label>
+                  <label htmlFor={`estado${index}`}>{cita.estado ? 'Aprobada' : 'Pendiente'}</label>
                 </td>
               </tr>
             ))}
@@ -222,14 +227,12 @@ const Button = styled.button`
   border: none;
   border-radius: 5px;
   background-color: ${props => props.theme === 'light' ? '#c98695' : '#9247FC'};
-  color: #fff;
-  font-size: 16px;
+  color: white;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
+  transition: background-color 0.3s;
 
   &:hover {
-    background-color: ${props => props.theme === 'light' ? '#a75d53' : '#7522e6'};
-    transform: scale(1.05);
+    background-color: ${props => props.theme === 'light' ? '#b57b7a' : '#7c3b8a'};
   }
 `;
 
