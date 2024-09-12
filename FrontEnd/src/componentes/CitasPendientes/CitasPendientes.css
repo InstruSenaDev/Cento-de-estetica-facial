@@ -15,6 +15,33 @@
     flex-wrap: wrap;
     justify-content: space-evenly;
   }
+
+  .titulo_citas {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.cita-pasada {
+    background-color: #f8d7da; /* Color de fondo para citas pasadas */
+    border-color: #f5c6cb; /* Color de borde para citas pasadas */
+}
+
+.estado-confirmado {
+    background-color: #d4edda; /* Color de fondo para citas confirmadas */
+    border-color: #c3e6cb; /* Color de borde para citas confirmadas */
+}
+
+.estado-no-confirmado {
+    background-color: #fff3cd; /* Color de fondo para citas no confirmadas */
+    border-color: #ffeeba; /* Color de borde para citas no confirmadas */
+}
+
+.aviso-pasada {
+    color: #721c24; /* Color del texto para aviso de cita pasada */
+    font-weight: bold;
+    margin-top: 10px;
+}
+
   .contenedorcarta {
     width: 40%;
     height: 85%;
