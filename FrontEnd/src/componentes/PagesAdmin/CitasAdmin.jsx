@@ -33,17 +33,23 @@ const CitasAdmin = ({ token }) => {
   useEffect(() => {
     const fetchCitas = async () => {
       try {
+        const today = moment().startOf('day');
         const { data, error } = await supabase
           .from('cita')
-          .select('id_cita, fecha, estado, usuarios, servicio(nombre_servicio), profesional, duracion') // Traer nombre_servicio
-          .eq('profesional', 1); // Filtrar por profesional si es necesario
+          .select('id_cita, fecha, estado, usuarios, servicio(nombre_servicio), profesional, duracion')
+          .eq('profesional', 1)
+          .gte('fecha', today.toISOString())
+          .order('fecha', { ascending: true });
+
         if (error) throw error;
-        // Establecer estado por defecto como false
-        const citasConEstado = data.map(cita => ({
+
+        // Asegurarse de que todas las citas tengan estado false por defecto
+        const citasConEstadoPorDefecto = data.map(cita => ({
           ...cita,
-          estado: false // Todos sin aprobar por defecto
+          estado: cita.estado || false
         }));
-        setCitas(citasConEstado);
+
+        setCitas(citasConEstadoPorDefecto);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching citas:', error);
@@ -67,17 +73,22 @@ const CitasAdmin = ({ token }) => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleAcceptCita = async (cita) => {
-    if (window.confirm(`¿Estás seguro de aprobar la cita de ${cita.usuarios} para el ${cita.fecha}?`)) {
+    if (window.confirm(`¿Estás seguro de ${cita.estado ? 'cancelar' : 'aprobar'} la cita de ${cita.usuarios} para el ${moment(cita.fecha).format('DD/MM/YYYY HH:mm')}?`)) {
       try {
+        const newEstado = !cita.estado;
         const { data, error } = await supabase
           .from('cita')
-          .update({ estado: true }) // Cambiar a booleano
+          .update({ estado: newEstado })
           .eq('id_cita', cita.id_cita);
+        
         if (error) throw error;
-        console.log('Cita aprobada correctamente');
-        setCitas(citas.map(c => c.id_cita === cita.id_cita ? { ...c, estado: true } : c));
+        
+        console.log(`Cita ${newEstado ? 'aprobada' : 'cancelada'} correctamente`);
+        
+        // Actualizar el estado local
+        setCitas(citas.map(c => c.id_cita === cita.id_cita ? { ...c, estado: newEstado } : c));
       } catch (error) {
-        console.error('Error al aprobar cita:', error);
+        console.error('Error al actualizar cita:', error);
       }
     }
   };
@@ -95,7 +106,7 @@ const CitasAdmin = ({ token }) => {
           <h1>Citas Administrador</h1>
         </Header>
         <Content theme={theme}>
-          <p>En esta sección encontrarás todas las citas apartadas (pendientes por confirmación) por los clientes.</p>
+          <p>En esta sección encontrarás todas las citas registradas por los clientes para el mes actual y los meses futuros.</p>
           <p><b>Nota:</b> Confirma el Estado de la cita por medio del Checklist <b>SOLO</b> si la cita fue abonada exitosamente con el 50%.</p>
         </Content>
         
@@ -116,22 +127,21 @@ const CitasAdmin = ({ token }) => {
             </tr>
           </thead>
           <tbody>
-            {currentCitas.map((cita, index) => (
+            {currentCitas.map((cita) => (
               <tr key={cita.id_cita}>
-                <td>{cita.usuarios}</td> 
-                <td>{cita.fecha}</td>
+                <td>{cita.usuarios}</td>
+                <td>{moment(cita.fecha).format('DD/MM/YYYY HH:mm')}</td>
                 <td>{moment(cita.duracion, 'HH:mm').format('h:mm A')}</td>
-                <td>{cita.servicio.nombre_servicio}</td> {/* Mostrar nombre_servicio */}
+                <td>{cita.servicio.nombre_servicio}</td>
                 <td>
                   <input 
                     type="checkbox" 
-                    id={`estado${index}`} 
-                    name={`estado${index}`} 
-                    checked={cita.estado} // Comprobar si el estado es verdadero
-                    onChange={() => handleAcceptCita(cita)} 
-                    readOnly={cita.estado} // Solo se puede cambiar si es falso
+                    id={`estado-${cita.id_cita}`}
+                    name={`estado-${cita.id_cita}`}
+                    checked={cita.estado}
+                    onChange={() => handleAcceptCita(cita)}
                   />
-                  <label htmlFor={`estado${index}`}>{cita.estado ? 'Aprobada' : 'Pendiente'}</label>
+                  <label htmlFor={`estado-${cita.id_cita}`}>{cita.estado ? 'Aprobada' : 'Pendiente'}</label>
                 </td>
               </tr>
             ))}
