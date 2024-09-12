@@ -99,13 +99,33 @@ export const Agendamiento = () => {
     
     const handleReservarClick = async (event) => {
         event.preventDefault();
-
+    
         if (!selectedProfesional || !selectedHora || !date) {
             window.alert('Por favor, selecciona un profesional, una fecha y una hora.');
             return;
         }
-
+    
         const selectedDate = date.toISOString().split('T')[0];
+        
+        // Validar si ya hay una cita para el mismo profesional, fecha y hora
+        const { data: citas, error: citasError } = await supabase
+            .from('cita')
+            .select('*')
+            .eq('fecha', selectedDate)
+            .eq('profesional', selectedProfesional)
+            .eq('duracion', selectedHora);
+    
+        if (citasError) {
+            console.error('Error fetching existing citas:', citasError);
+            setError('Error al verificar citas existentes.');
+            return;
+        }
+    
+        if (citas.length > 0) {
+            window.alert('Ya existe una cita en el horario seleccionado.');
+            return;
+        }
+    
         const { error } = await supabase
             .from('cita')
             .insert({
@@ -117,13 +137,13 @@ export const Agendamiento = () => {
                 duracion: selectedHora,
                 id_horario: franjasHorarias.find(franja => franja.hora === selectedHora).id_horario // Asociamos el id_horario a la cita
             });
-
+    
         if (error) {
             console.error('Error al crear la cita:', error);
             setError('Hubo un error al reservar la cita. Por favor, inténtalo de nuevo.');
             return;
         }
-
+    
         navigate('/Facturacion', {
             state: {
                 fecha: date,
@@ -137,7 +157,7 @@ export const Agendamiento = () => {
             }
         });
     };
-
+    
     const tileDisabled = ({ date }) => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
