@@ -3,6 +3,7 @@ import supabase from '../../supabase/supabaseconfig';
 import "./CitasPendientes.css";
 import { ListGroup, Container } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import moment from 'moment';
 
 const CitasPendientes = ({ token }) => {
     const [appointments, setAppointments] = useState([]);
@@ -69,8 +70,8 @@ const CitasPendientes = ({ token }) => {
                                 key={index} 
                                 className={isPast ? 'past-appointment' : 'future-appointment'}
                             >
-                                <p>Fecha: {new Date(appointment.fecha).toLocaleDateString()}</p>
-                                <p>Duración: {appointment.duracion}</p>
+                                <p>Fecha:{appointment.fecha}</p>
+                                <p>Hora: {moment(appointment.duracion, 'HH:mm:ss').format('h:mm A')}</p>
                                 <p>Profesional: {appointment.profesional.nombre_profesional}</p>
                                 <p>Servicio: {appointment.servicio.nombre_servicio}</p>
                                 <p>Estado: {appointment.estado ? 'Confirmada' : 'Pendiente'}</p>
