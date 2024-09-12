@@ -130,7 +130,7 @@ const CitasAdmin = ({ token }) => {
             {currentCitas.map((cita) => (
               <tr key={cita.id_cita}>
                 <td>{cita.usuarios}</td>
-                <td>{moment(cita.fecha).format('DD/MM/YYYY HH:mm')}</td>
+                <td>(cita.fecha)</td>
                 <td>{moment(cita.duracion, 'HH:mm').format('h:mm A')}</td>
                 <td>{cita.servicio.nombre_servicio}</td>
                 <td>
