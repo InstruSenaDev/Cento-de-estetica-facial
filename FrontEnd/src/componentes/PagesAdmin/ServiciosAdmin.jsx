@@ -46,7 +46,8 @@ export function ServiciosAdmin() {
     const { data, error } = await supabase
       .from('franja_horaria_nueva')
       .select('*')
-      .eq('nombre_servicio', service.nombre_servicio);
+      .eq('nombre_servicio', service.nombre_servicio)
+      .eq('id_profesional', 1); // Filtrar por id_profesional 1
 
     if (error) console.error('Error fetching service times:', error);
     else {
@@ -68,8 +69,6 @@ export function ServiciosAdmin() {
     setEditableService(null);
     setSelectedService(null);
   };
-
-  
 
   const handleServiceUpdate = async () => {
     if (!editableService) return;
@@ -188,7 +187,8 @@ export function ServiciosAdmin() {
         nombre_servicio: selectedService.nombre_servicio,
         fecha: date,
         hora: time,
-        estado: 'disponible'
+        estado: 'disponible',
+        id_profesional: 1 // Agregar id_profesional aquí
       }))
     );
 
@@ -198,7 +198,8 @@ export function ServiciosAdmin() {
         .select('*')
         .eq('nombre_servicio', update.nombre_servicio)
         .eq('fecha', update.fecha)
-        .eq('hora', update.hora);
+        .eq('hora', update.hora)
+        .eq('id_profesional', update.id_profesional); // Verificar por id_profesional
 
       if (checkError) {
         console.error('Error verificando duplicados:', checkError);
@@ -250,24 +251,7 @@ export function ServiciosAdmin() {
       );
     }
   };
-  
-  const toggleServicio = async (idServicio, estadoActual) => {
-    try {
-      const { data, error } = await supabase
-        .from('servicios')
-        .update({ estado: !estadoActual }) // Cambiar el valor del booleano de estado
-        .eq('id', idServicio);
-  
-      if (error) {
-        throw error;
-      }
-  
-      console.log('Servicio actualizado:', data);
-    } catch (error) {
-      console.error('Error habilitando/deshabilitando el servicio:', error.message);
-    }
-  };
-    
+
   return (
     <Container>
       <div className="titulo_Header_Servicios_Admin">
@@ -446,6 +430,7 @@ export function ServiciosAdmin() {
     </Container>
   );
 }
+
 
 const Container = styled.div`
   min-height: 100vh;  
