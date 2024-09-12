@@ -69,6 +69,8 @@ export function ServiciosAdmin() {
     setSelectedService(null);
   };
 
+  
+
   const handleServiceUpdate = async () => {
     if (!editableService) return;
 
@@ -224,17 +226,18 @@ export function ServiciosAdmin() {
 
   const handleToggleService = async () => {
     if (!editableService) return;
-
+  
+    // Cambiar el estado del servicio
     const updatedService = {
       ...editableService,
-      habilitado: !editableService.habilitado // Cambiar el estado de habilitado
+      estado: !editableService.estado // Cambiar el estado actual
     };
-
+  
     const { data, error } = await supabase
       .from('servicios')
       .update(updatedService)
       .eq('id_servicios', updatedService.id_servicios);
-
+  
     if (error) {
       console.error('Error al habilitar/deshabilitar servicio:', error);
       alert(`Error habilitando/deshabilitando el servicio: ${error.message}`);
@@ -247,7 +250,24 @@ export function ServiciosAdmin() {
       );
     }
   };
-
+  
+  const toggleServicio = async (idServicio, estadoActual) => {
+    try {
+      const { data, error } = await supabase
+        .from('servicios')
+        .update({ estado: !estadoActual }) // Cambiar el valor del booleano de estado
+        .eq('id', idServicio);
+  
+      if (error) {
+        throw error;
+      }
+  
+      console.log('Servicio actualizado:', data);
+    } catch (error) {
+      console.error('Error habilitando/deshabilitando el servicio:', error.message);
+    }
+  };
+    
   return (
     <Container>
       <div className="titulo_Header_Servicios_Admin">
@@ -267,22 +287,23 @@ export function ServiciosAdmin() {
 
         <div className="ediciones_header">
           <div className="contenido_Header_Servicios_Admin">
-            {servicios.map(service => (
-              <div key={service.id_servicios} className="edicion_contenido">
-                <button
-                  className="nombre_servicio_boton"
-                  onClick={() => handleSelectClick(service)}
-                >
-                  {service.nombre_servicio}
-                </button>
+          {servicios.map(service => (
+  <div key={service.id_servicios} className="edicion_contenido">
+    <button
+      className={`nombre_servicio_boton ${service.estado ? 'habilitado' : 'inhabilitado'}`}
+      onClick={() => handleSelectClick(service)}
+    >
+      {service.nombre_servicio}
+    </button>
 
-                <div className="ajustes_edicion_contenido">
-                  <button className="edicion_contenido_boton" onClick={() => handleEditClick(service)}>
-                    editar
-                  </button>
-                </div>
-              </div>
-            ))}
+    <div className="ajustes_edicion_contenido">
+      <button className="edicion_contenido_boton" onClick={() => handleEditClick(service)}>
+        editar
+      </button>
+    </div>
+  </div>
+))}
+
           </div>
         </div>
 
@@ -409,7 +430,7 @@ export function ServiciosAdmin() {
                       Habilitado:
                       <input
                         type="checkbox"
-                        checked={editableService.habilitado}
+                        checked={editableService.estado}
                         onChange={handleToggleService}
                       />
                     </label>

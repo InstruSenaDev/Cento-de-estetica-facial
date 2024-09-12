@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"; 
 import styled from "styled-components";
 import supabase from "../../supabase/supabaseconfig";
 import { ThemeContext } from "../../App";
@@ -52,23 +52,27 @@ export function PersonalAdmin() {
     });
   };
 
-  const toggleEstado = async (profesional) => {
-    const updatedEstado = !profesional.estado;
-    const { data, error } = await supabase
-      .from("profesional")
-      .update({ estado: updatedEstado })
-      .eq("id", profesional.id);
+const toggleEstado = async (profesional) => {
+  const updatedEstado = !profesional.estado;
+  console.log('Toggling estado for:', profesional.id, 'New estado:', updatedEstado); // Agrega este log
+  const { data, error } = await supabase
+    .from("profesional")
+    .update({ estado: updatedEstado })
+    .eq("id", profesional.id); // Asegúrate de que profesional.id no sea undefined
 
-    if (error) {
-      console.log("Error updating estado: ", error);
-    } else {
-      setPersonalList((prevList) =>
-        prevList.map((p) =>
-          p.id === profesional.id ? { ...p, estado: updatedEstado } : p
-        )
-      );
-    }
-  };
+  if (error) {
+    console.log("Error updating estado: ", error);
+  } else {
+    console.log('Update successful:', data); // Agrega este log
+    setPersonalList((prevList) =>
+      prevList.map((p) =>
+        p.id === profesional.id ? { ...p, estado: updatedEstado } : p
+      )
+    );
+  }
+};
+
+  
 
   const handleEdit = (profesional) => {
     setEditingProfesional(profesional);
@@ -108,7 +112,7 @@ export function PersonalAdmin() {
         
         <ListaPersonal theme={theme}>
           {personalList.map((profesional) => (
-            <PersonalItem key={profesional.id} theme={theme}>
+            <PersonalItem key={profesional.id} theme={theme} professionalStatus={profesional.estado}>
               <button
                 className="boton_nombre_profesional_calendario"
                 onClick={() => handleEdit(profesional)}
@@ -215,13 +219,14 @@ const PersonalItem = styled.div`
   flex: 1;
   min-width: 280px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  color: ${props => props.theme === 'light' ? '#202020' : '#fff'};
+  color: ${props => props.professionalStatus ? (props.theme === 'light' ? '#202020' : '#fff') : '#999'};
+  opacity: ${props => props.professionalStatus ? '1' : '0.6'};
 
   .boton_nombre_profesional_calendario {
     font-size: 18px;
     font-family: "Playfair Display", serif;
     font-weight: bold;
-    color: ${props => props.theme === 'light' ? '#c98695' : '#9247FC'};
+    color: ${props => props.professionalStatus ? (props.theme === 'light' ? '#c98695' : '#9247FC') : '#999'};
     background: none;
     border: none;
     cursor: pointer;
@@ -232,7 +237,11 @@ const PersonalItem = styled.div`
     transition: color 0.3s;
 
     &:hover {
-      color: ${props => props.theme === 'light' ? '#a75d53' : '#7522e6'};
+      color: ${props => props.professionalStatus ? (props.theme === 'light' ? '#a75d53' : '#7522e6') : '#999'};
+    }
+
+    &:disabled {
+      cursor: not-allowed;
     }
   }
 `;
