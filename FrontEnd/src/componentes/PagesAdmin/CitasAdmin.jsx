@@ -93,6 +93,28 @@ const CitasAdmin = ({ token }) => {
     }
   };
 
+  const handleAgregarFranjaHoraria = async (nuevaFranja) => {
+    const { id_profesional, hora, fecha } = nuevaFranja;
+
+    try {
+        const { error } = await supabase
+            .from('franja_horaria')
+            .insert([
+                { id_profesional, hora, fecha }
+            ]);
+
+        if (error) {
+            throw error;
+        }
+
+        console.log('Franja horaria añadida correctamente');
+        // Aquí podrías actualizar el estado para reflejar los cambios
+    } catch (error) {
+        console.error('Error al añadir franja horaria:', error);
+    }
+};
+
+
   const toggleSortOrder = () => {
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
@@ -130,7 +152,7 @@ const CitasAdmin = ({ token }) => {
             {currentCitas.map((cita) => (
               <tr key={cita.id_cita}>
                 <td>{cita.usuarios}</td>
-                <td>(cita.fecha)</td>
+                <td>{cita.fecha}</td>
                 <td>{moment(cita.duracion, 'HH:mm').format('h:mm A')}</td>
                 <td>{cita.servicio.nombre_servicio}</td>
                 <td>
