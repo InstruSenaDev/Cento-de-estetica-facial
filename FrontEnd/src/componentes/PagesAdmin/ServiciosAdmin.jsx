@@ -44,10 +44,11 @@ export function ServiciosAdmin() {
     setSelectedDates([]);
 
     const { data, error } = await supabase
-      .from('franja_horaria_nueva')
-      .select('*')
-      .eq('nombre_servicio', service.nombre_servicio)
-      .eq('id_profesional', 1); // Filtrar por id_profesional 1
+    .from('franja_horaria')
+    .select('*')
+    .eq('nombre_servicio', service.nombre_servicio)
+    .eq('id_profesional', 1); // Filtrar por id_profesional 1
+  
 
     if (error) console.error('Error fetching service times:', error);
     else {
