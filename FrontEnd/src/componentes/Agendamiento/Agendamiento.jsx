@@ -132,7 +132,7 @@ export const Agendamiento = () => {
                 fecha: selectedDate,
                 estado: 'reservado',
                 usuarios: userId,
-                servicios: servicio.id_servicios,
+                servicios: servicio.id_servicio,
                 profesional: selectedProfesional,
                 duracion: selectedHora,
                 id_horario: franjasHorarias.find(franja => franja.hora === selectedHora).id_horario // Asociamos el id_horario a la cita

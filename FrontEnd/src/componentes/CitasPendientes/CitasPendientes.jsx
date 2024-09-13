@@ -3,11 +3,53 @@ import supabase from '../../supabase/supabaseconfig';
 import "./CitasPendientes.css";
 import { ListGroup, Container } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import moment from 'moment';
+import imagenfondo from "../../assets/images/imagen_fondo.jpg";
+import { NavLink } from 'react-router-dom';
 
 const CitasPendientes = ({ token }) => {
     const [appointments, setAppointments] = useState([]);
     const [user, setUser] = useState(null);
+    const [userName, setUserName] = useState('');
+
+    const createAppointment = async () => {
+        // Valida si ya existe una cita en esa fecha y hora con el mismo profesional y servicio
+        const { data: existingAppointment, error: checkError } = await supabase
+            .from('cita')
+            .select('*')
+            .eq('fecha', selectedDate)
+            .eq('hora', selectedHour)
+            .eq('profesional', selectedProfessionalId)
+            .eq('servicio', selectedServiceId);
+    
+        if (checkError) {
+            console.error('Error checking existing appointment:', checkError);
+            return;
+        }
+    
+        if (existingAppointment.length > 0) {
+            alert('Ya hay una cita agendada en esa fecha y hora.');
+            return;
+        }
+    
+        // Inserta la cita si no existe una duplicada
+        const { error: insertError } = await supabase
+            .from('cita')
+            .insert({
+                fecha: selectedDate,
+                hora: selectedHour,
+                profesional: selectedProfessionalId,
+                servicio: selectedServiceId,
+                estado: true, // O el estado adecuado
+                usuarios: userId
+            });
+    
+        if (insertError) {
+            console.error('Error al crear la cita:', insertError);
+        } else {
+            alert('Cita creada con éxito.');
+        }
+    };
+    
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -25,6 +67,7 @@ const CitasPendientes = ({ token }) => {
             }
             if (currentUser) {
                 setUser(currentUser);
+                setUserName(currentUser.user_metadata.full_name);
                 localStorage.setItem('userName', currentUser.user_metadata.full_name);
             }
         };
@@ -37,7 +80,18 @@ const CitasPendientes = ({ token }) => {
             if (user) {
                 const { data, error } = await supabase
                     .from('cita')
-                    .select(`fecha, duracion, estado, profesional (nombre_profesional), servicio (nombre_servicio)`)
+                    .select(`
+                        fecha,
+                        duracion,
+                        estado,
+                        profesional (
+                            nombre_profesional
+                        ),
+                        servicio (
+                            nombre_servicio,
+                            url_img
+                        )
+                    `)
                     .eq('usuarios', user.id);
 
                 if (error) {
@@ -54,34 +108,37 @@ const CitasPendientes = ({ token }) => {
     }, [user]);
 
     return (
-        <Container>
-            <div className='titulo_citas'>
-                <h3>Tus Citas Pendientes</h3>
-            </div>
-            
+        <Container className='citaspendientesbody'>
+            <h3 className='citaspendientestitulo'>Tus Citas Pendientes, {userName}</h3>
             {appointments.length === 0 ? (
                 <p>No tienes citas programadas. Por favor inicia sesión para verificar tus citas.</p>
             ) : (
-                <ListGroup>
-                    {appointments.map((appointment, index) => {
-                        const isPast = new Date(appointment.fecha) < new Date();
-                        return (
-                            <ListGroup.Item 
-                                key={index} 
-                                className={isPast ? 'past-appointment' : 'future-appointment'}
-                            >
-                                <p>Fecha:{appointment.fecha}</p>
-                                <p>Hora: {moment(appointment.duracion, 'HH:mm:ss').format('h:mm A')}</p>
-                                <p>Profesional: {appointment.profesional.nombre_profesional}</p>
-                                <p>Servicio: {appointment.servicio.nombre_servicio}</p>
-                                <p>Estado: {appointment.estado ? 'Confirmada' : 'Pendiente'}</p>
-                                {isPast && <span className='past-info'>Esta cita ya pasó</span>}
-                            </ListGroup.Item>
-                        );
-                    })}
-                </ListGroup>
+                <div className='cartacompletacitas'>
+                    {appointments.map((citas, index) => (
+                        <div key={index} className='contenedorcarta'>
+
+                            <div className='subcarta'>
+                              
+                            <p className='contenedorTitulo'> {citas.servicio?.nombre_servicio || 'Sin servicio asignado'}</p>
+                                <p className='contenedorsubtitulo'><b className='fechaAgendadaSubtitulo'>Fecha:</b> {new Date(citas.fecha).toLocaleDateString()}</p>
+                                <p className='contenedorsubtitulo'><b className='fechaAgendadaSubtitulo'>Duración:</b> {citas.duracion}</p>
+                                <p className='contenedorsubtitulo'><b className='fechaAgendadaSubtitulo'>Profesional:</b> {citas.profesional.nombre_profesional}</p>
+                                <p className='contenedorsubtitulo'><b className='fechaAgendadaSubtitulo'>Estado:</b> {citas.estado ? 'Confirmada' : 'Pendiente'}</p>
+
+
+
+                                <NavLink to={"/politicas"}> <button> RECOMENDACIONES PARA TU CITA </button> </NavLink>
+
+                            </div>
+
+                        </div>
+                    ))}
+                </div>
+
             )}
         </Container>
+
+
     );
 };
 

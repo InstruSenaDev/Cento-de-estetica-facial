@@ -1,129 +1,146 @@
+/* Estilos globales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden; /* Evita el desplazamiento horizontal */
+  background-color: #FFFFFF;
+}
+
+/* Contenedor principal para centrar el contenido */
 .citaspendientesbody {
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Centra verticalmente el contenido */
+  min-height: 80vh; /* Ajuste para centrar verticalmente */
 }
+
+.citaspendientesbody.container {
+  font-family: "Manrope", sans-serif;
+  background-color: #ffffff;
+  height: max-content;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Títulos */
 .citaspendientestitulo {
-    border-bottom: 30px;
+  padding-bottom: 3%;
+  border-bottom: 30px;
 }
+
+/* Carta completa de citas */
 .cartacompletacitas {
-    width: 80%;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-  }
-
-  .titulo_citas {
-    text-align: center;
-    margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Tres columnas de igual tamaño */
+  gap: 20px; /* Espacio entre las cartas */
+  width: 100%;
+  max-width: 1200px; /* Máximo ancho del contenedor */
 }
 
-.cita-pasada {
-    background-color: #f8d7da; /* Color de fondo para citas pasadas */
-    border-color: #f5c6cb; /* Color de borde para citas pasadas */
+/* Subcarta */
+.subcarta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10%;
 }
 
-.estado-confirmado {
-    background-color: #d4edda; /* Color de fondo para citas confirmadas */
-    border-color: #c3e6cb; /* Color de borde para citas confirmadas */
+.subcarta button {
+  width: 160px;
+  font-size: 15px;
+  text-align: center;
+  border-radius: 5px;
+  background-color: #e9cbd5;
+  color: black;
+  border-color: #e9cbd5;
 }
 
-.estado-no-confirmado {
-    background-color: #fff3cd; /* Color de fondo para citas no confirmadas */
-    border-color: #ffeeba; /* Color de borde para citas no confirmadas */
+/* Contenedor de cada carta */
+.contenedorcarta {
+  border-radius: 35px;
+  transition: 400ms all ease;
+  box-shadow: 10px 10px 16px -5px rgba(0, 0, 0, 0.75);
+  overflow: hidden; /* Asegura que las esquinas redondeadas funcionen */
 }
 
-.aviso-pasada {
-    color: #721c24; /* Color del texto para aviso de cita pasada */
-    font-weight: bold;
-    margin-top: 10px;
+.contenedorcarta:hover {
+  transform: translateY(-4%);
+  box-shadow: 10px 10px 16px -5px rgba(0, 0, 0, 0.75);
 }
 
-  .contenedorcarta {
-    width: 40%;
-    height: 85%;
-    border-radius: 35px;
-    transition: 400ms all ease;
-    box-shadow: 10px 10px 16px -5px rgba(0, 0, 0, 0.75);
-    -webkit-box-shadow: 10px 10px 16px -5px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 10px 10px 16px -5px rgba(0, 0, 0, 0.75);
-    margin-bottom: 20px;
-  }
-  .contenedorcarta:hover {
-    transform: translateY(-4%);
-    box-shadow: 10px 10px 16px -5px rgba(0, 0, 0, 0.75);
-    -webkit-box-shadow: 10px 10px 16px -5px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 10px 10px 16px -5px rgba(0, 0, 0, 0.75);
-  }
-  .contenedorcarta img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    border-top-left-radius: 35px;
-    border-top-right-radius: 35px;
-  }
-  .subcarta {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
+.contenedorcarta img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-top-left-radius: 35px;
+  border-top-right-radius: 35px;
+}
+
+/* Títulos y subtítulos */
+.contenedorTitulo,
+.contenedorsubtitulo {
+  font-weight: bold;
+  font-family: "Urbanist", sans-serif;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.contenedorTitulo {
+  font-size: 35px;
+}
+
+.contenedorsubtitulo {
+  color: rgb(85, 84, 84);
+  font-size: 20px;
+}
+
+/* Media Queries */
+@media (max-width: 1400px) {
   .contenedorTitulo {
-    width: 80%;
-    font-weight: bold;
-    margin-top: 10px;
-    font-size: 35px;
-    font-family: "Urbanist", sans-serif;
+    font-size: 30px;
   }
   .contenedorsubtitulo {
-    width: 80%;
-    font-weight: bold;
-    color: rgb(85, 84, 84);
-    font-family: "Urbanist", sans-serif;
-    font-size: 20px;
+    font-size: 18px;
   }
-  .citaspendientestitulo {
-    padding-bottom: 3%;
 }
 
-@media (max-width: 1400px) {
-    .contenedorTitulo {
-      font-size: 30px
-    }.contenedorsubtitulo {
-        font-size: 20px;
-      }}
+@media (max-width: 1200px) {
+  .contenedorTitulo {
+    font-size: 24px;
+  }
+  .contenedorsubtitulo {
+    font-size: 16px;
+  }
+}
 
-    @media (max-width: 1200px) {
-        .contenedorTitulo {
-          font-size: 26px
-        }
-        .contenedorsubtitulo {
-            font-size: 15px;
-          }}
-          @media (max-width: 500px) {
-            .cartacompletacitas {
-              display: flex;
-              flex-direction: column;
-            }
-            .contenedorcarta {
-                width: 100%;
-            }
-            }
-            @media (max-width: 990px) {
-                .contenedorTitulo {
-                    font-size: 40px
-                  }
-                  .contenedorsubtitulo {
-                    font-size: 25px;
-                  }
-                  .cartacompletacitas {
-                    display: flex;
-                    flex-direction: column;
-                  }
-                  .contenedorcarta {
-                    width: 100%;
-                  }
-                }
+@media (max-width: 990px) {
+  .cartacompletacitas {
+    grid-template-columns: 1fr; /* Una sola columna en pantallas más pequeñas */
+  }
+  .contenedorTitulo {
+    font-size: 28px;
+  }
+  .contenedorsubtitulo {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 500px) {
+  .contenedorTitulo {
+    font-size: 24px;
+  }
+  .contenedorsubtitulo {
+    font-size: 15px;
+  }
+}
