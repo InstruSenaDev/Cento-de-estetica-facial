@@ -119,7 +119,14 @@ const CitasPendientes = ({ token }) => {
 
                             <div className='subcarta'>
                               
-                            <p className='contenedorTitulo'> {citas.servicio?.nombre_servicio || 'Sin servicio asignado'}</p>
+                            <p className='contenedorTitulo'>
+  {citas.servicio?.nombre_servicio ? citas.servicio.nombre_servicio : 'Servicio no asignado'}
+</p>
+<p className='contenedorsubtitulo'>
+  <b className='fechaAgendadaSubtitulo'>Estado:</b> 
+  {citas.estado ? (citas.estado === 'reservado' ? 'Confirmada' : 'Pendiente') : 'Estado no asignado'}
+</p>
+
                                 <p className='contenedorsubtitulo'><b className='fechaAgendadaSubtitulo'>Fecha:</b> {new Date(citas.fecha).toLocaleDateString()}</p>
                                 <p className='contenedorsubtitulo'><b className='fechaAgendadaSubtitulo'>Duración:</b> {citas.duracion}</p>
                                 <p className='contenedorsubtitulo'><b className='fechaAgendadaSubtitulo'>Profesional:</b> {citas.profesional.nombre_profesional}</p>

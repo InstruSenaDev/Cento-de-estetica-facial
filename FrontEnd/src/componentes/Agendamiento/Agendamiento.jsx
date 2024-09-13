@@ -21,14 +21,27 @@ export const Agendamiento = () => {
 
     useEffect(() => {
         const fetchUser = async () => {
+            const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+    
+            if (sessionError || !sessionData.session) {
+                console.error('Error: No active session:', sessionError);
+                setError('No se encontró una sesión activa. Por favor, inicia sesión nuevamente.');
+                // Redirige al usuario a la página de inicio de sesión si no hay sesión activa
+                navigate('/login');
+                return;
+            }
+    
             const { data, error } = await supabase.auth.getUser();
-            if (data) {
-                setUserId(data.user.id);
-            } else {
+    
+            if (error) {
                 console.error('Error fetching user:', error);
                 setError('Error al obtener información del usuario');
+            } else {
+                setUserId(data.user.id);
             }
         };
+    
+
 
         const fetchProfesionales = async () => {
             const { data, error } = await supabase
@@ -46,34 +59,34 @@ export const Agendamiento = () => {
         fetchProfesionales();
     }, []);
 
-    useEffect(() => {
-        const fetchFranjasHorarias = async () => {
-            if (date && selectedProfesional && servicio) {
-                const selectedDate = date.toISOString().split('T')[0];
-                console.log('Fecha seleccionada:', selectedDate);
-                console.log('ID del profesional seleccionado:', selectedProfesional);
+  useEffect(() => {
+    const fetchFranjasHorarias = async () => {
+        if (date && selectedProfesional && servicio) {
+            const selectedDate = date.toISOString().split('T')[0];
+            console.log('Fecha seleccionada:', selectedDate);
+            console.log('ID del profesional seleccionado:', selectedProfesional);
 
-                // Fetch franjas horarias
-                const { data: franjas, error: franjasError } = await supabase
-                    .from('franja_horaria')
-                    .select('*')
-                    .eq('fecha', selectedDate)
-                    .eq('id_profesional', selectedProfesional);
+            // Agregar filtro por servicio
+            const { data: franjas, error: franjasError } = await supabase
+                .from('franja_horaria')
+                .select('*')
+                .eq('fecha', selectedDate)
+                .eq('id_profesional', selectedProfesional)
+                .eq('nombre_servicio', servicio.nombre_servicio); // Aquí filtramos por el nombre del servicio
 
-                if (franjasError) {
-                    console.error('Error fetching franjas horarias:', franjasError);
-                    setError('Error al obtener franjas horarias');
-                } else {
-                    console.log('Franjas horarias obtenidas:', franjas); // Verifica qué se está obteniendo aquí
-                    setFranjasHorarias(franjas || []);
-                }
+            if (franjasError) {
+                console.error('Error fetching franjas horarias:', franjasError);
+                setError('Error al obtener franjas horarias');
+            } else {
+                console.log('Franjas horarias obtenidas:', franjas); // Verifica qué se está obteniendo aquí
+                setFranjasHorarias(franjas || []);
             }
-        };
+        }
+    };
 
+    fetchFranjasHorarias();
+}, [date, selectedProfesional, servicio]);
 
-
-        fetchFranjasHorarias();
-    }, [date, selectedProfesional, servicio]);
 
     const handleProfesionalChange = (event) => {
         const selectedId = event.target.value;
@@ -106,7 +119,7 @@ export const Agendamiento = () => {
         }
     
         const selectedDate = date.toISOString().split('T')[0];
-        
+    
         // Validar si ya hay una cita para el mismo profesional, fecha y hora
         const { data: citas, error: citasError } = await supabase
             .from('cita')
@@ -134,8 +147,7 @@ export const Agendamiento = () => {
                 usuarios: userId,
                 servicios: servicio.id_servicio,
                 profesional: selectedProfesional,
-                duracion: selectedHora,
-                id_horario: franjasHorarias.find(franja => franja.hora === selectedHora).id_horario // Asociamos el id_horario a la cita
+                duracion: selectedHora
             });
     
         if (error) {
@@ -157,6 +169,7 @@ export const Agendamiento = () => {
             }
         });
     };
+    
     
     const tileDisabled = ({ date }) => {
         const today = new Date();
@@ -212,24 +225,22 @@ export const Agendamiento = () => {
                                 <div className='titulo_horarios'>
                                     <h3>Horarios Disponibles</h3>
                                 </div>
-                                <div className='horarios-grid'>
-                                    {franjasHorarias.length > 0 ? (
-                                        franjasHorarias.map(franja => (
-                                            <div key={franja.id_horario}
-                                                className={`cuadros ${isHoraOcupada(franja.id_horario) ? 'ocupado' : 'libre'}`}
-                                                onClick={() => handleHoraClick(franja.hora, franja.id_horario)}
-                                                style={{
-                                                    cursor: isHoraOcupada(franja.id_horario) ? 'not-allowed' : 'pointer',
-                                                    opacity: isHoraOcupada(franja.id_horario) ? 0.5 : 1
-                                                }}>
-                                                {moment(franja.hora, 'HH:mm').format('h:mm A')}
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <p>No hay franjas horarias disponibles</p>
-                                    )}
-                                </div>
 
+
+                                <div className='horarios-grid'>
+                                    
+                                    {franjasHorarias.length > 0 ? ( franjasHorarias.map(franja => (
+                                        
+                                        <div key={franja.id_horario} className={`cuadros ${isHoraOcupada(franja.id_horario) ? 'ocupado' : 'libre'}`}
+                                        onClick={() => handleHoraClick(franja.hora, franja.id_horario)} 
+                                        style={{ cursor: isHoraOcupada(franja.id_horario) ? 'not-allowed' : 'pointer',
+                                            opacity: isHoraOcupada(franja.id_horario) ? 0.5 : 1 }}>
+                                                {moment(franja.hora, 'HH:mm').format('h:mm A')}
+                                                </div>
+                                                ))
+                                            ) : ( <p>No hay franjas horarias disponibles</p>)
+                                            }
+                                </div>
                             </div>
                         </div>
                     </div>
