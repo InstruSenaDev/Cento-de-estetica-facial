@@ -143,7 +143,7 @@ const CitasAdmin = ({ token }) => {
             <tr>
               <th>Cliente</th>
               <th>Fecha</th>
-              <th>Duración</th>
+              <th>Hora</th>
               <th>Servicio</th>
               <th>Estado</th>
             </tr>
