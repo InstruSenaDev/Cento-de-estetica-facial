@@ -33,20 +33,19 @@ const CitasAdmin = ({ token }) => {
   useEffect(() => {
     const fetchCitas = async () => {
       try {
-        const today = moment().startOf('day');
+        const startOfMonth = moment().startOf('month');
         const { data, error } = await supabase
           .from('cita')
           .select('id_cita, fecha, estado, usuarios, servicio(nombre_servicio), profesional, duracion')
           .eq('profesional', 1)
-          .gte('fecha', today.toISOString())
+          .gte('fecha', startOfMonth.toISOString()) // Filtra desde el inicio del mes actual
           .order('fecha', { ascending: true });
-
+        
         if (error) throw error;
 
-        // Asegurarse de que todas las citas tengan estado false por defecto
         const citasConEstadoPorDefecto = data.map(cita => ({
           ...cita,
-          estado: cita.estado || false
+          estado: cita.estado ?? false // Establece el estado por defecto como pendiente
         }));
 
         setCitas(citasConEstadoPorDefecto);
@@ -73,7 +72,8 @@ const CitasAdmin = ({ token }) => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleAcceptCita = async (cita) => {
-    if (window.confirm(`¿Estás seguro de ${cita.estado ? 'cancelar' : 'aprobar'} la cita de ${cita.usuarios} para el ${moment(cita.fecha).format('DD/MM/YYYY HH:mm')}?`)) {
+    const confirmMessage = `¿Estás seguro de ${cita.estado ? 'cancelar' : 'aprobar'} la cita de ${cita.usuarios} para el ${moment(cita.fecha).format('DD/MM/YYYY HH:mm')}?`;
+    if (window.confirm(confirmMessage)) {
       try {
         const newEstado = !cita.estado;
         const { data, error } = await supabase
@@ -85,35 +85,12 @@ const CitasAdmin = ({ token }) => {
         
         console.log(`Cita ${newEstado ? 'aprobada' : 'cancelada'} correctamente`);
         
-        // Actualizar el estado local
         setCitas(citas.map(c => c.id_cita === cita.id_cita ? { ...c, estado: newEstado } : c));
       } catch (error) {
         console.error('Error al actualizar cita:', error);
       }
     }
   };
-
-  const handleAgregarFranjaHoraria = async (nuevaFranja) => {
-    const { id_profesional, hora, fecha } = nuevaFranja;
-
-    try {
-        const { error } = await supabase
-            .from('franja_horaria')
-            .insert([
-                { id_profesional, hora, fecha }
-            ]);
-
-        if (error) {
-            throw error;
-        }
-
-        console.log('Franja horaria añadida correctamente');
-        // Aquí podrías actualizar el estado para reflejar los cambios
-    } catch (error) {
-        console.error('Error al añadir franja horaria:', error);
-    }
-};
-
 
   const toggleSortOrder = () => {
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
@@ -139,36 +116,41 @@ const CitasAdmin = ({ token }) => {
         </SortControl>
 
         <Table theme={theme}>
-          <thead>
-            <tr>
-              <th>Cliente</th>
-              <th>Fecha</th>
-              <th>Duración</th>
-              <th>Servicio</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentCitas.map((cita) => (
-              <tr key={cita.id_cita}>
-                <td>{cita.usuarios}</td>
-                <td>{cita.fecha}</td>
-                <td>{moment(cita.duracion, 'HH:mm').format('h:mm A')}</td>
-                <td>{cita.servicio.nombre_servicio}</td>
-                <td>
-                  <input 
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Servicio</th>
+            <th>Estado</th>
+            <th>Control</th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentCitas.map((cita) => (
+            <tr key={cita.id_cita}>
+              <td>{cita.usuarios}</td>
+              <td>{cita.fecha}</td>
+              <td>{moment(cita.duracion, 'HH:mm').format('h:mm A')}</td>
+              <td>{cita.servicio.nombre_servicio}</td>
+              <td className={cita.estado ? 'aprobada' : 'pendiente'}>
+                {cita.estado ? 'Aprobada' : 'Pendiente'}
+              </td>
+              <td>
+                <CheckboxContainer>
+                  <Checkbox 
                     type="checkbox" 
                     id={`estado-${cita.id_cita}`}
-                    name={`estado-${cita.id_cita}`}
                     checked={cita.estado}
                     onChange={() => handleAcceptCita(cita)}
                   />
-                  <label htmlFor={`estado-${cita.id_cita}`}>{cita.estado ? 'Aprobada' : 'Pendiente'}</label>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+                  <Label htmlFor={`estado-${cita.id_cita}`} estado={cita.estado} />
+                </CheckboxContainer>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
 
         <Pagination theme={theme}>
           {[...Array(Math.ceil(citas.length / citasPerPage))].map((_, i) => (
@@ -246,6 +228,16 @@ const Table = styled.table`
   tr:hover {
     background-color: ${props => props.theme === 'light' ? '#f1f1f1' : '#3e3e3e'};
   }
+
+  td.aprobada {
+    color: #4CAF50; /* Verde para Aprobada */
+    text-shadow: 1px 1px 2px white; /* Sombra blanca */
+  }
+
+  td.pendiente {
+    color: #f44336; /* Rojo para Pendiente */
+    text-shadow: 1px 1px 2px white; /* Sombra blanca */
+  }
 `;
 
 const Pagination = styled.div`
@@ -266,6 +258,41 @@ const Button = styled.button`
   &:hover {
     background-color: ${props => props.theme === 'light' ? '#b57b7a' : '#7c3b8a'};
   }
+`;
+
+const CheckboxContainer = styled.div`
+  position: relative;
+`;
+
+const Checkbox = styled.input`
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  appearance: none;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: background-color 0.3s, border-color 0.3s;
+
+  &:checked {
+    background-color: #4CAF50; /* Verde */
+    border-color: #4CAF50; /* Borde verde */
+  }
+
+  &:not(:checked) {
+    border-color: #f44336; /* Rojo */
+  }
+`;
+
+const Label = styled.label`
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  margin-left: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: ${props => props.estado ? '#4CAF50' : '#f44336'}; /* Verde si está aprobado, rojo si está pendiente */
 `;
 
 export default CitasAdmin;
