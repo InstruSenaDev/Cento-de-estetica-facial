@@ -271,26 +271,28 @@ export function ServiciosAdmin() {
         </div>
 
         <div className="ediciones_header">
-          <div className="contenido_Header_Servicios_Admin">
-          {servicios.map(service => (
-  <div key={service.id_servicios} className="edicion_contenido">
-    <button
-      className={`nombre_servicio_boton ${service.estado ? 'habilitado' : 'inhabilitado'}`}
-      onClick={() => handleSelectClick(service)}
-    >
-      {service.nombre_servicio}
-    </button>
+  <div className="contenido_Header_Servicios_Admin">
+    {servicios.map(service => (
+      <div key={service.id_servicios} className="edicion_contenido">
+        <button
+          className={`nombre_servicio_boton ${service.estado ? 'habilitado' : 'inhabilitado'}`}
+          onClick={() => handleSelectClick(service)}
+        >
+          {service.nombre_servicio}
+          <StatusDot active={service.estado} />
+        </button>
 
-    <div className="ajustes_edicion_contenido">
-      <button className="edicion_contenido_boton" onClick={() => handleEditClick(service)}>
-        editar
-      </button>
-    </div>
-  </div>
-))}
-
-          </div>
+        <div className="ajustes_edicion_contenido">
+          <button className="edicion_contenido_boton" onClick={() => handleEditClick(service)}>
+            editar
+          </button>
         </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+          
 
         {selectedService && (
           <div className="calendario_Contenido_Servicios_Admin">
@@ -451,4 +453,13 @@ const Modal = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const StatusDot = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: ${({ active }) => (active ? 'green' : 'red')};
+  display: inline-block;
+  margin-left: 8px;
 `;

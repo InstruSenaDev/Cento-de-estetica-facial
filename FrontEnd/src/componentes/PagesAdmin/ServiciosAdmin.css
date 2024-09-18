@@ -363,23 +363,4 @@ body {
   color: #422A3C;
 }
 
-/* Servicios habilitados */
-.nombre_servicio_boton.habilitado {
-  background-color: #4CAF50; /* Verde */
-  color: white;
-  border: 2px solid #388E3C;
-}
 
-/* Servicios inhabilitados */
-.nombre_servicio_boton.inhabilitado {
-  background-color: #f44336; /* Rojo */
-  color: white;
-  border: 2px solid #d32f2f;
-  opacity: 0.6; /* Más transparente */
-}
-
-/* Efecto hover */
-.nombre_servicio_boton:hover {
-  opacity: 0.9;
-  cursor: pointer;
-}
