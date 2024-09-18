@@ -238,7 +238,7 @@ export const Agendamiento = () => {
                                                 {moment(franja.hora, 'HH:mm').format('h:mm A')}
                                                 </div>
                                                 ))
-                                            ) : ( <p>No hay franjas horarias disponibles</p>)
+                                            ) : ( <p>No tenemos citas disponibles para este dia, intenta con otro</p>)
                                             }
                                 </div>
                             </div>
