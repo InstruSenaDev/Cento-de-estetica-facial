@@ -4,8 +4,10 @@ import './ServiciosAdmin.css';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import supabase from '../../supabase/supabaseconfig';
+import { ThemeContext } from '../../App';
 
 export function ServiciosAdmin() {
+  const { theme } = React.useContext(ThemeContext);
   const [selectedDates, setSelectedDates] = useState([]);
   const [serviceTimes, setServiceTimes] = useState({});
   const [servicios, setServicios] = useState([]);
@@ -44,11 +46,11 @@ export function ServiciosAdmin() {
     setSelectedDates([]);
 
     const { data, error } = await supabase
-    .from('franja_horaria')
-    .select('*')
-    .eq('nombre_servicio', service.nombre_servicio)
-    .eq('id_profesional', 1); // Filtrar por id_profesional 1
-  
+      .from('franja_horaria')
+      .select('*')
+      .eq('nombre_servicio', service.nombre_servicio)
+      .eq('id_profesional', 1); // Filtrar por id_profesional 1
+
 
     if (error) console.error('Error fetching service times:', error);
     else {
@@ -183,7 +185,7 @@ export function ServiciosAdmin() {
   };
 
   const handleUpdateAll = async () => {
-    const allUpdates = Object.entries(serviceTimes).flatMap(([date, times]) => 
+    const allUpdates = Object.entries(serviceTimes).flatMap(([date, times]) =>
       times.map(time => ({
         nombre_servicio: selectedService.nombre_servicio,
         fecha: date,
@@ -228,18 +230,18 @@ export function ServiciosAdmin() {
 
   const handleToggleService = async () => {
     if (!editableService) return;
-  
+
     // Cambiar el estado del servicio
     const updatedService = {
       ...editableService,
       estado: !editableService.estado // Cambiar el estado actual
     };
-  
+
     const { data, error } = await supabase
       .from('servicios')
       .update(updatedService)
       .eq('id_servicios', updatedService.id_servicios);
-  
+
     if (error) {
       console.error('Error al habilitar/deshabilitar servicio:', error);
       alert(`Error habilitando/deshabilitando el servicio: ${error.message}`);
@@ -254,53 +256,40 @@ export function ServiciosAdmin() {
   };
 
   return (
-    <Container>
-      <div className="titulo_Header_Servicios_Admin">
-        <h1>Sección Servicios</h1>
-      </div>
-      <div className='contenidot_Header_Servicios_Admin'>
-        <p>Hola, en esta sección podrás agregar las horas disponibles para las citas por cada servicio.</p>
-        <p><b>Recomendación</b></p>
-        <p>Agendar las citas de la semana con anticipación ya que al cliente no se le permite agendar citas para el mismo día.</p>
-      </div>
+    <Container theme={theme}>
+      <div className="contenedor_servicio_Admin">
+        <Header theme={theme}>
+          <h1>Sección Servicios</h1>
+          <p>Hola, en esta sección podrás agregar las horas disponibles para las citas por cada servicio.</p>
+          <p><strong>Recomendación</strong></p>
+          <p>Agendar las citas de la semana con anticipación ya que al cliente no se le permite agendar citas para el mismo día.</p>
+        </Header>
 
-      <div className="Tabla_Contenido_Servicios_Admin">
-        <div className="titulo_Contenido_Header_Servicios_Admin">
-          <h3>Servicios</h3>
-          <h3>Ajustes</h3>
-        </div>
+        <TableContainer>
+          <TableHeader theme={theme}>
+            <h3>Servicios</h3>
+            <h3>Ajustes</h3>
+          </TableHeader>
 
-        <div className="ediciones_header">
-  <div className="contenido_Header_Servicios_Admin">
-    {servicios.map(service => (
-      <div key={service.id_servicios} className="edicion_contenido">
-        <button
-          className={`nombre_servicio_boton ${service.estado ? 'habilitado' : 'inhabilitado'}`}
-          onClick={() => handleSelectClick(service)}
-        >
-          {service.nombre_servicio}
-          <StatusDot active={service.estado} />
-        </button>
+          <ServiceList>
+            {servicios.map(service => (
+              <ServiceItem key={service.id_servicios} theme={theme}>
 
-        <div className="ajustes_edicion_contenido">
-          <button className="edicion_contenido_boton" onClick={() => handleEditClick(service)}>
-            editar
-          </button>
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
+                <ServiceButton theme={theme}
+                  className={`nombre_servicio_boton ${service.estado ? 'habilitado' : 'inhabilitado'}`}
+                  onClick={() => handleSelectClick(service)}>
+                  <p> {service.nombre_servicio}</p>
+                  <StatusDot active={service.estado} />
+                </ServiceButton>
+                <EditButton onClick={() => handleEditClick(service)} theme={theme} >editar</EditButton >
+              </ServiceItem>
+            ))}
+          </ServiceList>
 
-          
-
-        {selectedService && (
-          <div className="calendario_Contenido_Servicios_Admin">
-            <div className="titulo_calendario_Contenido_Servicios_Admin">
-              <h3>Agregar horas para {selectedService.nombre_servicio}</h3>
-            </div>
-            <div className='calendario-container'>
-              <Calendar
+          {selectedService && (
+            <CalendarContainer theme={theme} >
+              <h3 theme={theme} >Agregar horas para {selectedService.nombre_servicio}</h3>
+              <StyledCalendar
                 onChange={handleDateChange}
                 value={null}
                 tileClassName={tileClassName}
@@ -308,127 +297,93 @@ export function ServiciosAdmin() {
                 nextLabel={null}
                 showNeighboringMonth={false}
               />
-            </div>
-            <div className='escogerhora'>
-              <form action='#' method='post'>
-                <p className='datosfecha'>
+              <HourSelection>
+                <form>
                   {selectedDates.map(date => (
-                    <div key={date.toDateString()} className="fecha-seleccionada">
+                    <DateSelection key={date.toDateString()}>
                       <div>
                         {date.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' })}
                       </div>
                       <div>
                         {serviceTimes[date.toDateString()] && serviceTimes[date.toDateString()].map((time, index) => (
-                          <div key={index}>
+                          <TimeInput key={index}>
                             <input
                               type="time"
                               value={time}
                               onChange={(e) => handleTimeChange(date, index, e.target.value)}
                             />
                             <button type="button" onClick={() => removeTime(date, index)}>Eliminar Hora</button>
-                          </div>
+                          </TimeInput>
                         ))}
-                        <button type="button" className="añadirhora_servicios" onClick={() => addTime(date)}>Añadir Hora</button>
+                        <button type="button" onClick={() => addTime(date)}>Añadir Hora</button>
                       </div>
-                    </div>
+                    </DateSelection>
                   ))}
-                </p>
-              </form>
-            </div>
-          </div>
-        )}
+                </form>
+              </HourSelection>
+            </CalendarContainer>
+          )}
 
-        <div className='actualizar_horario_servicio'>
-          <button className='btn-flotante' onClick={handleUpdateAll}>Actualizar</button>
-        </div>
+          <UpdateButton>
+            <FloatingButton onClick={handleUpdateAll} theme={theme}> Actualizar </FloatingButton>
+          </UpdateButton>
 
-        <div className='titulo-add-service'>
-          <h2>Añadir Servicio</h2>
-        </div>
-        <div className="add-service-container">
-          <p>Nombre:
-            <input
-              type="text"
-              value={newService.nombre_servicio}
-              onChange={(e) => setNewService({ ...newService, nombre_servicio: e.target.value })}
-            />
-          </p>
-          <p>Descripción:
-            <input
-              type="text"
-              value={newService.descripcion}
-              onChange={(e) => setNewService({ ...newService, descripcion: e.target.value })}
-            />
-          </p>
-          <p>Duración:
-            <input
-              type="text"
-              value={newService.duracion}
-              onChange={(e) => setNewService({ ...newService, duracion: e.target.value })}
-            />
-          </p>
-          <p>Precio:
-            <input
-              type="number"
-              value={newService.precio}
-              onChange={(e) => setNewService({ ...newService, precio: e.target.value })}
-            />
-          </p>
-          <button className="handleAddService" onClick={handleAddService}>Añadir Servicio</button>
-        </div>
+          <AddServiceSection theme={theme} >
+            <Titleservice theme={theme} >Añadir Servicio</Titleservice>
+            <ServiceInput theme={theme} >
+              <label>
+                Nombre:
+                <input type="text" value={newService.nombre_servicio} onChange={(e) => setNewService({ ...newService, nombre_servicio: e.target.value })} />
+              </label>
+              <label>
+                Descripción:
+                <input type="text" value={newService.descripcion} onChange={(e) => setNewService({ ...newService, descripcion: e.target.value })} />
+              </label>
+              <label>
+                Duración:
+                <input type="text" value={newService.duracion} onChange={(e) => setNewService({ ...newService, duracion: e.target.value })} />
+              </label>
+              <label>
+                Precio:
+                <input type="number" value={newService.precio} onChange={(e) => setNewService({ ...newService, precio: e.target.value })} />
+              </label>
+              <HandleAddServiceButton theme={theme} onClick={handleAddService}>Añadir Servicio</HandleAddServiceButton>
+            </ServiceInput>
+          </AddServiceSection>
 
-        {modalOpen && (
-          <Modal>
-            <div className="modal-content">
-              <h2>{editableService ? 'Editar Servicio' : 'Ver Servicio'}</h2>
-              {editableService && (
-                <div className="modal-fields">
-                  <p>ID: {editableService.id_servicios}</p>
-                  <p>Nombre:
-                    <input
-                      type="text"
-                      value={editableService.nombre_servicio}
-                      onChange={(e) => setEditableService({ ...editableService, nombre_servicio: e.target.value })}
-                    />
-                  </p>
-                  <p>Descripción:
-                    <input
-                      type="text"
-                      value={editableService.descripcion}
-                      onChange={(e) => setEditableService({ ...editableService, descripcion: e.target.value })}
-                    />
-                  </p>
-                  <p>Duración:
-                    <input
-                      type="text"
-                      value={editableService.duracion}
-                      onChange={(e) => setEditableService({ ...editableService, duracion: e.target.value })}
-                    />
-                  </p>
-                  <p>Precio:
-                    <input
-                      type="number"
-                      value={editableService.precio}
-                      onChange={(e) => setEditableService({ ...editableService, precio: e.target.value })}
-                    />
-                  </p>
-                  <p>
-                    <label>
-                      Habilitado:
-                      <input
-                        type="checkbox"
-                        checked={editableService.estado}
-                        onChange={handleToggleService}
-                      />
-                    </label>
-                  </p>
-                  <button onClick={handleServiceUpdate}>Actualizar</button>
-                </div>
-              )}
-              <button onClick={handleModalClose}>Cerrar</button>
-            </div>
-          </Modal>
-        )}
+          {modalOpen && (
+            <Modal theme={theme}>
+              <div className="modal-content">
+                <h2>{editableService ? 'Editar Servicio' : 'Ver Servicio'}</h2>
+                {editableService && (
+                  <ModalFields>
+                    <p>ID: {editableService.id_servicios}</p>
+                    <p>Nombre:
+                      <input type="text" value={editableService.nombre_servicio} onChange={(e) => setEditableService({ ...editableService, nombre_servicio: e.target.value })} />
+                    </p>
+                    <p>Descripción:
+                      <input type="text" value={editableService.descripcion} onChange={(e) => setEditableService({ ...editableService, descripcion: e.target.value })} />
+                    </p>
+                    <p>Duración:
+                      <input type="text" value={editableService.duracion} onChange={(e) => setEditableService({ ...editableService, duracion: e.target.value })} />
+                    </p>
+                    <p>Precio:
+                      <input type="number" value={editableService.precio} onChange={(e) => setEditableService({ ...editableService, precio: e.target.value })} />
+                    </p>
+                    <p>
+                      <label>
+                        Habilitado:
+                        <input type="checkbox" checked={editableService.estado} onChange={handleToggleService} />
+                      </label>
+                    </p>
+                    <button theme={theme} onClick={handleServiceUpdate}>Actualizar</button>
+                  </ModalFields>
+                )}
+                <button theme={theme} onClick={handleModalClose}>Cerrar</button>
+              </div>
+            </Modal>
+          )}
+        </TableContainer>
       </div>
     </Container>
   );
@@ -436,30 +391,296 @@ export function ServiciosAdmin() {
 
 
 const Container = styled.div`
-  min-height: 100vh;  
+  min-height: 100vh;
   padding: 20px;
   box-sizing: border-box;
-  margin-left: ${({ sidebarOpen }) => (sidebarOpen ? '300px' : '70px')}; 
-  transition: margin-left 0.3s;
+  background-color: ${props => props.theme === 'light' ? '#f5f5f5' : '#21252B'};
+  color: ${props => props.theme === 'light' ? '#202020' : '#fff'};
+  transition: all 0.3s ease;
+  border-radius: 10px;
 `;
 
-const Modal = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+
+const Header = styled.div`
+  background-color: ${({ theme }) => theme === 'light' ? ' #fcebf2' : '#444'};
+  
+  h1, h2 {
+    font-size: 30px;
+    color: ${props => props.theme === 'light' ? '#202020' : '#fff'};
+  }
+ border: 10px solid ${props => props.theme === 'light' ? '#c98695' : '#9247FC'};
+  border-radius: 10px;
+text-align: center;
+padding: 15px;
+font-family: "Playfair Display", serif;
+font-weight: normal;
+margin-bottom: 20px;
+`;
+
+const TableContainer = styled.div`
+display: flex;
+flex-direction: column;
+gap: 20px;
+`;
+
+const TableHeader = styled.div`
+  background-color: ${({ theme }) => theme === 'light' ? '#fcebf2' : '#333'};
+  border: 2px solid ${({ theme }) => theme === 'light' ? '#c98695' : '#9247FC'};
+  border-radius: 10px;
+  text-align: center;
   display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  color: ${({ theme }) => theme === 'light' ? '#000' : '#fff'};
+`;
+
+const ServiceList = styled.div`
+display: flex;
+flex-direction: column;
+gap: 10px;
+`;
+
+const ServiceItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: ${({ theme }) => theme === 'light' ? '#ffffff' : '#444'};
+  border: 1px solid ${({ theme }) => theme === 'light' ? '#e0e0e0' : '#666'};
+  color: ${({ theme }) => theme === 'light' ? '#000' : '#fff'};
+
+  border-radius: 5px;
+  width: 100%;
+    p {
+    color: ${props => props.theme === 'light' ? '#202020' : '#fff'};
+  }
+`;
+
+const ServiceButton = styled.button`
+font-size: 17px;
+background-color: transparent;
+border: none;
+color: #000;
+cursor: pointer;
+`;
+
+const EditButton = styled.button`
+  font-size: 14px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: ${({ theme }) => theme === 'light' ? '#c98695' : '#6A5ACD'}; /* Cambia según el tema */
+  color: #fff; /* Color del texto */
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: ${({ theme }) => theme === 'light' ? '#a75d53' : '#483D8B'}; /* Cambia según el tema */
+  }
+`;
+
+
+const CalendarContainer = styled.div`
+  padding: 20px;
+  border: 1px solid ${({ theme }) => theme.border};
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+   background-color: ${props => props.theme === 'light' ? '#f5f5f5' : '#21252B'};
+  color: ${props => props.theme === 'light' ? '#202020' : '#fff'};
+  
+  h3 {
+    font-size: 30px;
+    color: ${props => props.theme === 'light' ? '#202020' : '#fff'};
+  
+ border: 10px solid ${props => props.theme === 'light' ? '#c98695' : '#9247FC'};
+  border-radius: 10px;
+text-align: center;
+padding: 15px;
+font-family: "Playfair Display", serif;
+font-weight: normal;
+margin-bottom: 20px;
+}
+`;
+
+// Estilos para el calendario
+const StyledCalendar = styled(Calendar)`
+  width: 100%;
+  max-width: 100%;
+  background-color: ${({ theme }) => theme.background};
+  border: 1px solid ${({ theme }) => theme.border};
+  border-radius: 10px;
+
+  &__tile {
+    border-radius: 5px;
+    padding: 10px;
+  }
+
+  &__tile--active,
+  &__tile--hasActive {
+    background-color: ${({ theme }) => theme.activeBackground};
+    color: ${({ theme }) => theme.activeColor};
+  }
+`;
+
+// Otros estilos
+const HourSelection = styled.div`
+  margin-top: 10px;
+`;
+
+const DateSelection = styled.div`
+  margin-bottom: 10px;
+`;
+
+const TimeInput = styled.div`
+  margin: 5px 0;
+`;
+
+const UpdateButton = styled.div`
+  margin-top: 20px;
+`;
+
+
+
+const FloatingButton = styled.button`
+  font-size: 16px; /* Cambiar el tamaño de la tipografía */
+  text-transform: uppercase; /* Texto en mayúsculas */
+  font-weight: bold; /* Fuente en negrita */
+  color: ${({ theme }) => theme === 'light' ? '#000000' : '#ffffff'}; /* Color del texto */
+  border-radius: 5px; /* Borde del botón */
+  letter-spacing: 2px; /* Espacio entre letras */
+  background-color: ${({ theme }) => theme === 'light' ? '#fcebf2' : '#6A5ACD'}; /* Color de fondo */
+  padding: 18px 30px; /* Relleno del botón */
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  transition: all 300ms ease 0ms;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  z-index: 99;
+
+  &:hover {
+    background-color: ${({ theme }) => theme === 'light' ? '#c98695' : '#483D8B'}; /* Color de fondo al pasar el cursor */
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-7px);
+  }
+`;
+
+const AddServiceSection = styled.div`
+  padding: auto;
+  gap: 10px;
+  margin: 15px;
+  display: flex;
+  flex-direction: column; /* Cambiado a columna para alineación vertical */
   justify-content: center;
   align-items: center;
 `;
 
-const StatusDot = styled.div`
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: ${({ active }) => (active ? 'green' : 'red')};
-  display: inline-block;
-  margin-left: 8px;
+// Estilo para el título
+const Titleservice = styled.h2`
+ font-size: 30px;
+    color: ${props => props.theme === 'light' ? '#202020' : '#fff'};
+   background-color: ${({ theme }) => theme === 'light' ? ' #fcebf2' : '#444'};
+ border: 10px solid ${props => props.theme === 'light' ? '#c98695' : '#9247FC'};
+  border-radius: 10px;
+text-align: center;
+padding: 15px;
+font-family: "Playfair Display", serif;
+font-weight: normal;
+margin-bottom: 20px;
+
 `;
+
+// Estilo para los inputs
+const ServiceInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  input {
+   background-color: ${({ theme }) => theme === 'light' ? ' #fcebf2' : '#444'};
+   border: 2px solid ${props => props.theme === 'light' ? '#c98695' : '#9247FC'};
+    border-radius: 5px; 
+    padding: 0.5rem;
+    font-size: 16px;
+    font-family: "Playfair Display", serif;
+  }
+`;
+
+// Estilo para el botón
+const HandleAddServiceButton = styled.button`
+  background-color: ${({ theme }) => theme === 'light' ? ' #fcebf2' : '#444'};
+   border: 2px solid ${props => props.theme === 'light' ? '#c98695' : '#9247FC'};
+    border-radius: 5px; 
+  padding: 1rem;
+  font-size: 18px;
+  font-family: "Playfair Display", serif;
+  font-weight: bold;
+  cursor: pointer;
+   ${({ theme }) => theme === 'light' ? ' #fcebf2' : '#444'};
+
+  &:hover {
+   background-color: ${({ theme }) => theme === 'light' ? '#c98695' : '#483D8B'}; /* Color de fondo al pasar el cursor */
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
+    color: ${({ theme }) => theme === 'light' ? ' #fcebf2' : '#fff'}
+  }
+`;
+
+
+
+
+const Modal = styled.div`
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: rgba(0, 0, 0, 0.5);
+display: flex;
+justify-content: center;
+align-items: center;
+`;
+
+const ModalFields = styled.div`
+background: #fcebf2;
+padding: 20px;
+border-radius: 8px;
+max-width: 500px;
+width: 100%;
+display: flex;
+flex-direction: column;
+gap: 10px;
+
+input {
+  width: calc(100% - 20px);
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #c98695;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #a75d53;
+  }
+}
+`;
+
+const StatusDot = styled.div`
+width: 10px;
+height: 10px;
+border-radius: 50%;
+background-color: ${({ active }) => (active ? 'green' : 'red')};
+display: inline-block;
+margin-left: 8px;
+`;
+
+export default ServiciosAdmin;

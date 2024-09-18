@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import supabase from '../../supabase/supabaseconfig';
-import jsPDF from 'jspdf';
+// import jsPDF from 'jspdf';
 import { ThemeContext } from '../../App';
 
 export function PersonalAdmin() {
@@ -257,16 +257,17 @@ export function PersonalAdmin() {
     onChange={handleChange}
   />
   
-  <Button onClick={generatePassword}>Generar Contraseña</Button>
+  <Button  theme={theme} onClick={generatePassword}>Generar Contraseña</Button>
   
   <PasswordDisplay theme={theme}>
     Contraseña: {newProfesional.password}
   </PasswordDisplay>
   
-  <Button onClick={editingProfesional ? updateProfesional : addProfesional}>
+  <Button theme={theme} onClick={editingProfesional ? updateProfesional : addProfesional}>
     {editingProfesional ? "Actualizar" : "Agregar"}
   </Button>
-  <Button onClick={() => generatePDF(newProfesional)}>
+
+  <Button  theme={theme} onClick={() => generatePDF(newProfesional)}>
     Generar PDF
   </Button>
   
@@ -291,13 +292,14 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
+ background-color: ${({ theme }) => theme === 'light' ? ' #fcebf2' : '#444'};
   border: 10px solid ${props => props.theme === 'light' ? '#c98695' : '#9247FC'};
   border-radius: 10px;
   font-family: "Playfair Display", serif;
   text-align: center;
   margin-bottom: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  background-color: ${props => props.theme === 'light' ? 'transparent' : '#313131'};
+  
   
   h1, h2 {
     font-size: 30px;
